@@ -31,6 +31,8 @@ jobs:
         run: pip install pykakasi
       - name: Fetch yacht data (加盟大学・大会カレンダー・成績PDFリンク)
         run: python pipeline/fetch_all.py
+      - name: Generate new-result articles (Type A / 新着成績記事)
+        run: python pipeline/generate_articles.py
       - name: Generate site
         run: python pipeline/generate_site.py
       - name: Commit updated data & site
@@ -38,7 +40,7 @@ jobs:
         run: |
           git config user.name "yachtmania-bot"
           git config user.email "bot@piecetimes.jp"
-          git add data site
+          git add data content site
           git diff --cached --quiet || git commit -m "chore: 大学ヨットのデータを自動更新"
           git push
       - uses: actions/configure-pages@v5

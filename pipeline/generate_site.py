@@ -31,7 +31,7 @@ ASSETS = ROOT / "assets"
 CONTENT = ROOT / "content" / "articles"
 
 SITE_BASE = "https://yachtmania.jp/"
-GA_MEASUREMENT_ID = "G-162E02Q55F"  # GA4「ツナカレ部活メディア」共有プロパティ（tkoba-piecetimes.github.io配下で共有）
+GA_MEASUREMENT_ID = "G-SMC597ZSPZ"  # GA4「ヨットマニア」専用プロパティ（550004558）
 GSC_VERIFICATION = "0X77J6-cDQak8VJkyt1PGegqMjZwEI2HWAYjkwl3OF0"  # Search Console所有権確認トークン（アカウント共通）
 SPONSOR_CTA_URL = "https://tunakare.jp/?utm_source=yachtmania&utm_medium=referral&utm_campaign=sponsor"
 
