@@ -31,8 +31,8 @@ ASSETS = ROOT / "assets"
 CONTENT = ROOT / "content" / "articles"
 
 SITE_BASE = "https://tkoba-piecetimes.github.io/yachtmania/"
-GA_MEASUREMENT_ID = ""  # 未設定（GA4連携は今後の課題）
-GSC_VERIFICATION = ""   # 未設定（Search Console登録は今後の課題）
+GA_MEASUREMENT_ID = "G-162E02Q55F"  # GA4「ツナカレ部活メディア」共有プロパティ（tkoba-piecetimes.github.io配下で共有）
+GSC_VERIFICATION = "0X77J6-cDQak8VJkyt1PGegqMjZwEI2HWAYjkwl3OF0"  # Search Console所有権確認トークン（アカウント共通）
 SPONSOR_CTA_URL = "https://tunakare.jp/?utm_source=yachtmania&utm_medium=referral&utm_campaign=sponsor"
 
 NEW_WITHIN_DAYS = 14  # 「新着成績」として表示する検知日からの日数
