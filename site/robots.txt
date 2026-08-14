@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tkoba-piecetimes.github.io/yachtmania/sitemap.xml
+Sitemap: https://yachtmania.jp/sitemap.xml
