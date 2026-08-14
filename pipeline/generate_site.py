@@ -1,0 +1,798 @@
+# -*- coding: utf-8 -*-
+"""data/ の正規化JSONから静的サイト「ヨットマニア」（site/）を生成する。
+
+MVPスコープ: 大学ディレクトリ＋大会カレンダー＋成績PDFリンク集。
+PDFの中身は解析しない（リンクの一覧化のみ）。
+
+URL構造:
+  site/index.html                      トップ（新着成績PDF＋直近大会カレンダー）
+  site/regions/index.html              水域一覧
+  site/regions/<code>/index.html       水域ページ（関東・近畿北陸は大学ディレクトリ付き）
+  site/universities/<slug>/index.html  大学ページ
+  site/calendar/index.html             大会カレンダー全件
+  site/results/index.html              成績PDFリンク全件
+  site/articles/ 等                    全水域共通コンテンツ（現状は空でも動作する）
+"""
+import json
+import re
+import shutil
+import sys
+from datetime import date, datetime, timedelta
+from html import escape
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from regions import REGION_ORDER, REGIONS
+
+ROOT = Path(__file__).resolve().parent.parent
+DATA = ROOT / "data"
+SITE = ROOT / "site"
+ASSETS = ROOT / "assets"
+CONTENT = ROOT / "content" / "articles"
+
+SITE_BASE = "https://tkoba-piecetimes.github.io/yachtmania/"
+GA_MEASUREMENT_ID = ""  # 未設定（GA4連携は今後の課題）
+GSC_VERIFICATION = ""   # 未設定（Search Console登録は今後の課題）
+SPONSOR_CTA_URL = "https://tunakare.jp/?utm_source=yachtmania&utm_medium=referral&utm_campaign=sponsor"
+
+NEW_WITHIN_DAYS = 14  # 「新着成績」として表示する検知日からの日数
+
+_sitemap_paths: list[str] = []
+
+
+# ---------------------------------------------------------------- data loading
+
+def load_json(name, default):
+    f = DATA / name
+    if not f.exists():
+        return default
+    return json.loads(f.read_text(encoding="utf-8"))
+
+
+def load_data():
+    universities = load_json("universities.json", [])
+    calendar = load_json("calendar.json", [])
+    results = load_json("results_pdfs.json", [])
+    schedule_pdfs = load_json("schedule_pdfs.json", [])
+    meta = load_json("meta.json", {"fetched_at": datetime.now().isoformat(timespec="seconds"),
+                                    "sources": []})
+
+    by_region: dict[str, list] = {code: [] for code in REGION_ORDER}
+    for u in universities:
+        by_region.setdefault(u["region"], []).append(u)
+    for code in by_region:
+        by_region[code].sort(key=lambda u: u["name"])
+
+    results_by_region: dict[str, list] = {code: [] for code in REGION_ORDER}
+    for r in results:
+        results_by_region.setdefault(r.get("region") or "", []).append(r)
+    for code in results_by_region:
+        results_by_region[code].sort(key=lambda r: (r["first_detected_at"], r["filename"]), reverse=True)
+
+    results_sorted = sorted(results, key=lambda r: (r["first_detected_at"], r["id"]), reverse=True)
+
+    return {
+        "universities": universities,
+        "by_region": by_region,
+        "calendar": calendar,
+        "results": results_sorted,
+        "results_by_region": results_by_region,
+        "schedule_pdfs": schedule_pdfs,
+        "meta": meta,
+    }
+
+
+def load_articles():
+    if not CONTENT.exists():
+        return []
+    arts = []
+    for f in sorted(CONTENT.glob("*.md")):
+        raw = f.read_text(encoding="utf-8")
+        if raw.count("---") < 2:
+            continue
+        _, fm, body = raw.split("---", 2)
+        a = {"slug": f.stem, "body": body.strip()}
+        for line in fm.strip().splitlines():
+            k, _, v = line.partition(":")
+            a[k.strip()] = v.strip()
+        arts.append(a)
+    arts.sort(key=lambda a: (a.get("date", ""), a["slug"]), reverse=True)
+    return arts
+
+
+# ---------------------------------------------------------------- text helpers
+
+def is_new(first_detected_at: str) -> bool:
+    try:
+        d = date.fromisoformat(first_detected_at)
+    except (TypeError, ValueError):
+        return False
+    return (date.today() - d).days <= NEW_WITHIN_DAYS
+
+
+def date_jp(iso: str) -> str:
+    try:
+        d = date.fromisoformat(iso)
+    except (TypeError, ValueError):
+        return iso or ""
+    return f"{d.year}年{d.month}月{d.day}日"
+
+
+def md_inline(s):
+    s = escape(s, quote=False)
+    s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+    return s
+
+
+def md_to_html(md):
+    out, para = [], []
+    in_ul = in_ol = in_table = False
+
+    def close_blocks():
+        nonlocal in_ul, in_ol, in_table
+        if in_ul:
+            out.append("</ul>")
+            in_ul = False
+        if in_ol:
+            out.append("</ol>")
+            in_ol = False
+        if in_table:
+            out.append("</tbody></table></div>")
+            in_table = False
+
+    def flush_para():
+        nonlocal para
+        if para:
+            out.append("<p>" + md_inline(" ".join(para)) + "</p>")
+            para = []
+
+    for line in md.splitlines():
+        s = line.strip()
+        if s.startswith("|") and s.endswith("|") and len(s) > 1:
+            flush_para()
+            if in_ul or in_ol:
+                close_blocks()
+            cells = [c.strip() for c in s.strip("|").split("|")]
+            if all(re.fullmatch(r"[-: ]+", c) for c in cells):
+                continue
+            if not in_table:
+                out.append('<div class="tbl"><table><thead><tr>'
+                           + "".join(f"<th>{md_inline(c)}</th>" for c in cells)
+                           + "</tr></thead><tbody>")
+                in_table = True
+            else:
+                out.append("<tr>" + "".join(f"<td>{md_inline(c)}</td>" for c in cells) + "</tr>")
+            continue
+        if in_table:
+            out.append("</tbody></table></div>")
+            in_table = False
+        if not s:
+            flush_para()
+            close_blocks()
+        elif s.startswith("### "):
+            flush_para(); close_blocks()
+            out.append(f"<h3>{md_inline(s[4:])}</h3>")
+        elif s.startswith("## "):
+            flush_para(); close_blocks()
+            out.append(f"<h2>{md_inline(s[3:])}</h2>")
+        elif s.startswith("- "):
+            flush_para()
+            if not in_ul:
+                close_blocks()
+                out.append("<ul>")
+                in_ul = True
+            out.append(f"<li>{md_inline(s[2:])}</li>")
+        elif re.match(r"^\d+\.\s", s):
+            flush_para()
+            if not in_ol:
+                close_blocks()
+                out.append("<ol>")
+                in_ol = True
+            out.append(f"<li>{md_inline(re.sub(r'^\\d+\\.\\s', '', s))}</li>")
+        else:
+            para.append(s)
+    flush_para()
+    close_blocks()
+    return "\n".join(out)
+
+
+# ---------------------------------------------------------------- page shell
+
+NAV_ITEMS = [
+    ("index.html", "トップ"),
+    ("regions/index.html", "水域一覧"),
+    ("calendar/index.html", "大会カレンダー"),
+    ("results/index.html", "成績PDF"),
+]
+
+
+def page(rel, title, body, meta, *, path="", desc="", extra_head="", og_type="website",
+         subnav="", sitemap=True):
+    if sitemap:
+        _sitemap_paths.append(path)
+    else:
+        extra_head = '<meta name="robots" content="noindex, nofollow">\n' + extra_head
+    desc = desc or "大学ヨット部の加盟大学ディレクトリ・大会カレンダー・成績PDFリンクをまとめる情報メディア。"
+    url = SITE_BASE + path
+    og_image = ""
+    if (ASSETS / "ogp.png").exists():
+        og_image = (f'<meta property="og:image" content="{SITE_BASE}assets/ogp.png">\n'
+                    '<meta name="twitter:card" content="summary_large_image">\n')
+    ga = ""
+    if GA_MEASUREMENT_ID:
+        ga = (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>'
+              '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+              f"gtag('js',new Date());gtag('config','{GA_MEASUREMENT_ID}');</script>")
+    gsc = (f'<meta name="google-site-verification" content="{GSC_VERIFICATION}">\n'
+           if GSC_VERIFICATION else "")
+    nav = "".join(f'<a href="{rel}{href}">{label}</a>' for href, label in NAV_ITEMS)
+    if "sources" in meta:
+        src_html = " / ".join(
+            f'<a href="{escape(s["url"])}">{escape(s["label"])}</a>' for s in meta["sources"])
+    else:
+        src_html = ""
+    return f"""<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{gsc}<title>{escape(title)}</title>
+<meta name="description" content="{escape(desc)}">
+<meta property="og:title" content="{escape(title)}">
+<meta property="og:description" content="{escape(desc)}">
+<meta property="og:type" content="{og_type}">
+<meta property="og:url" content="{escape(url)}">
+<meta property="og:site_name" content="ヨットマニア">
+{og_image}<link rel="icon" href="{rel}assets/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="{escape(url)}">
+{extra_head}{ga}
+<link rel="stylesheet" href="{rel}style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="{rel}index.html"><span class="brand-tick"></span>ヨットマニア<span class="brand-sub">JAPAN COLLEGE YACHT</span></a>
+    <nav class="global-nav">{nav}</nav>
+  </div>
+</header>
+{subnav}
+<main>
+{body}
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-brand">ヨットマニア</p>
+    <nav class="footer-nav">{nav}</nav>
+    <p>データ出典: {src_html}
+    （情報更新日: {escape(meta['fetched_at'][:10])}）</p>
+    <p>ヨットマニアは大学ヨット部の情報メディアです。大会成績はPDFへのリンク集であり、
+    順位・スコアの中身は編集部で解析していません。確定情報は各成績PDFおよび各連盟公式の発表をご確認ください。</p>
+  </div>
+</footer>
+</body>
+</html>"""
+
+
+def write_page(path, html):
+    out = SITE / path / "index.html" if path else SITE / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(html, encoding="utf-8")
+
+
+# ---------------------------------------------------------------- components
+
+def univ_link(u, rel):
+    return f'<a href="{rel}universities/{u["slug"]}/index.html">{escape(u["name"])}</a>'
+
+
+def region_link(code, rel):
+    r = REGIONS[code]
+    return f'<a href="{rel}regions/{code}/index.html">{escape(r["name"])}水域</a>'
+
+
+def pdf_row(p, show_region=False):
+    badge = '<span class="new-badge">NEW</span> ' if is_new(p["first_detected_at"]) else ""
+    region_cell = (f'<td><span class="cat">{escape(REGIONS.get(p["region"], {}).get("name", p.get("region_label", "")))}</span></td>'
+                   if show_region else "")
+    return (f'<tr><td>{badge}<a href="{escape(p["url"])}" target="_blank" rel="noopener">'
+            f'{escape(p["filename"])}</a></td>{region_cell}'
+            f'<td><span class="cat cat-alt">{escape(p["class"])}</span></td>'
+            f'<td class="note">{escape(p["year_label"])}</td>'
+            f'<td class="note">{escape(date_jp(p["first_detected_at"]))}</td></tr>')
+
+
+def pdf_table(rows, show_region=False):
+    region_th = "<th>水域</th>" if show_region else ""
+    return (f'<div class="tbl"><table><thead><tr><th>成績PDF</th>{region_th}<th>クラス</th>'
+            '<th>年度</th><th>検知日</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div>')
+
+
+def calendar_row(e, rel, show_region=True):
+    date_cell = escape(e["date_text"]) if e["date_text"] else '<span class="note">日程は大会情報ページを参照</span>'
+    region_cell = ""
+    if show_region:
+        region_cell = (f'<td>{region_link(e["region"], rel)}</td>' if e.get("region")
+                       else '<td><span class="note">全国</span></td>')
+    return (f'<tr><td>{date_cell}</td>{region_cell}'
+            f'<td><a href="{escape(e["source_url"])}" target="_blank" rel="noopener">{escape(e["event"])}</a></td></tr>')
+
+
+def calendar_table(rows, show_region=True):
+    region_th = "<th>水域</th>" if show_region else ""
+    return (f'<div class="tbl"><table><thead><tr><th>日程</th>{region_th}<th>大会</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div>')
+
+
+def article_card(a, rel):
+    return (f'<div class="digest-card"><p class="cat-line"><span class="cat">{escape(a["category"])}</span>'
+            f' <span class="note">{escape(a["date"])}</span></p>'
+            f'<h3><a href="{rel}articles/{a["slug"]}/index.html">{escape(a["title"])}</a></h3>'
+            f'<p class="note">{escape(a["description"])}</p></div>')
+
+
+# ---------------------------------------------------------------- portal
+
+def build_portal(data, articles):
+    rel = ""
+    meta = data["meta"]
+    univ_count = len(data["universities"])
+    pdf_count = len(data["results"])
+    new_pdfs = [p for p in data["results"] if is_new(p["first_detected_at"])][:15]
+    region_names = "・".join(REGIONS[c]["name"] for c in REGION_ORDER)
+
+    body = ('<div class="hero"><div class="hero-inner">'
+            '<p class="hero-kicker">全国9水域の大学ヨット</p>'
+            '<h1>大学ヨット部の加盟大学・大会カレンダー・成績PDFをまとめて探せる</h1>'
+            f'<p class="hero-sub">加盟大学{univ_count}校・成績PDFリンク{pdf_count}件を毎日巡回・検知　|　'
+            f'最終更新 {escape(meta["fetched_at"][:10])}</p>'
+            '</div></div>')
+
+    body += ('<section><h2>新着成績PDF</h2>'
+             '<p class="lead">全日本学生ヨット連盟の水域大会成績ページを毎日巡回し、新しく公開された成績PDFへの'
+             'リンクを検知しています。PDFの中身（順位・スコア）は解析せず、リンク一覧のみを掲載しています。</p>')
+    if new_pdfs:
+        body += pdf_table("".join(pdf_row(p, show_region=True) for p in new_pdfs), show_region=True)
+    else:
+        body += '<p class="note">直近の新着はありません。</p>'
+    body += '<p class="more"><a class="cta" href="results/index.html">成績PDFリンク一覧をすべて見る →</a></p></section>'
+
+    body += '<section><h2>直近の大会カレンダー</h2>'
+    cal = data["calendar"][:12]
+    if cal:
+        body += calendar_table("".join(calendar_row(e, rel) for e in cal))
+    else:
+        body += '<p class="note">大会日程は準備中です。</p>'
+    body += '<p class="more"><a class="cta" href="calendar/index.html">大会カレンダーをすべて見る →</a></p></section>'
+
+    body += f'<section><h2>水域から探す</h2><p class="lead">{escape(region_names)}の9水域。</p><div class="digest">'
+    for code in REGION_ORDER:
+        r = REGIONS[code]
+        n_univ = len(data["by_region"].get(code, []))
+        n_pdf = len(data["results_by_region"].get(code, []))
+        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリ準備中'
+        body += (f'<div class="digest-card"><h3><a href="regions/{code}/index.html">{escape(r["name"])}水域</a></h3>'
+                 f'<p class="cat-line"><span class="cat">{escape(dir_note)}</span> '
+                 f'<span class="cat">成績PDF {n_pdf}件</span></p></div>')
+    body += '</div></section>'
+
+    if articles:
+        body += ('<section><h2>読みもの</h2><div class="digest">'
+                 + "".join(article_card(a, rel) for a in articles[:3])
+                 + '</div><p class="more"><a class="cta" href="articles/index.html">読みもの一覧へ →</a></p></section>')
+
+    write_page("", page(rel, "ヨットマニア | 大学ヨットの加盟大学・大会カレンダー・成績PDF", body, meta,
+                        path="",
+                        desc=f"{region_names}の大学ヨット部の加盟大学ディレクトリ・大会カレンダー・"
+                             "成績PDFリンクを毎日更新。"))
+
+
+# ---------------------------------------------------------------- regions
+
+def build_regions_index(data):
+    rel = "../"
+    meta = data["meta"]
+    body = ('<h1>水域一覧</h1>'
+            '<p class="lead">日本の大学ヨットは全国9水域の学生連盟が大会を運営しています。'
+            '大学ディレクトリを公式サイト（HTML）から取得できた水域は関東・近畿北陸の2水域です。'
+            'それ以外の水域は、全日本学生ヨット連盟の水域大会成績ページから取得した大会結果リンクのみを掲載しています。</p>')
+    cards = ""
+    for code in REGION_ORDER:
+        r = REGIONS[code]
+        n_univ = len(data["by_region"].get(code, []))
+        n_pdf = len(data["results_by_region"].get(code, []))
+        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリ準備中'
+        cards += (f'<div class="digest-card"><h3><a href="{rel}regions/{code}/index.html">{escape(r["name"])}水域</a></h3>'
+                  f'<p class="note">{escape(r["federation"])}</p>'
+                  f'<p class="cat-line"><span class="cat">{escape(dir_note)}</span> '
+                  f'<span class="cat">成績PDF {n_pdf}件</span></p></div>')
+    body += f'<div class="digest">{cards}</div>'
+    write_page("regions", page(rel, "水域一覧 | ヨットマニア", body, meta,
+                               path="regions/", desc="全国9水域の大学ヨット連盟一覧。大学ディレクトリと大会結果リンク。"))
+
+
+def build_region(code, data):
+    r = REGIONS[code]
+    meta = data["meta"]
+    rel = R = L = "../../"
+    univs = data["by_region"].get(code, [])
+    pdfs = data["results_by_region"].get(code, [])
+    cal = [e for e in data["calendar"] if e.get("region") == code]
+
+    body = (f'<p class="breadcrumb"><a href="{R}index.html">トップ</a> › '
+            f'<a href="{R}regions/index.html">水域一覧</a> › {escape(r["name"])}水域</p>')
+    body += f'<h1>{escape(r["name"])}水域の大学ヨット</h1>'
+    body += (f'<p class="lead">運営連盟: '
+             + (f'<a href="{escape(r["federation_url"])}" target="_blank" rel="noopener">{escape(r["federation"])}</a>'
+                if r["federation_url"] else escape(r["federation"]))
+             + '</p>')
+    if r["note"]:
+        body += f'<p class="note">{escape(r["note"])}</p>'
+
+    if r["has_directory"] and univs:
+        body += f'<section><h2>加盟大学ディレクトリ（{len(univs)}校）</h2><ul class="team-list">'
+        body += "".join(f'<li>{univ_link(u, L)}</li>' for u in univs)
+        body += '</ul></section>'
+    else:
+        body += ('<section><h2>加盟大学ディレクトリ</h2>'
+                 '<p class="note">この水域は加盟大学一覧をHTMLで取得できるページが見つかっていないため、'
+                 '大学ディレクトリは準備中です（全日本学連の加盟校名簿はPDF/Excel配布のみのため対象外）。</p></section>')
+
+    if cal:
+        body += '<section><h2>大会カレンダー</h2>' + calendar_table("".join(calendar_row(e, L, show_region=False) for e in cal), show_region=False) + '</section>'
+
+    body += '<section><h2>大会成績PDFリンク</h2>'
+    if pdfs:
+        body += ('<p class="note">全日本学生ヨット連盟の水域大会成績ページから検知した成績PDFへのリンクです。'
+                 '中身は解析していません。</p>')
+        body += pdf_table("".join(pdf_row(p) for p in pdfs))
+    else:
+        body += '<p class="note">この水域の成績PDFはまだ検知されていません。</p>'
+    body += '</section>'
+
+    body += ('<section class="sponsor"><h2>この水域を応援する企業</h2>'
+             '<p class="todo">（協賛メニュー連携枠：スポンサー企業ロゴ・リンクをここに配置）</p>'
+             f'<p><a class="cta" href="{SPONSOR_CTA_URL}" target="_blank" rel="noopener" '
+             'onclick="window.gtag&&gtag(\'event\',\'cv_sponsor_click\')">協賛について問い合わせる →</a></p></section>')
+
+    title = f'{r["name"]}水域の大学ヨット 加盟大学・大会成績 | ヨットマニア'
+    write_page(f"regions/{code}",
+               page(rel, title, body, meta,
+                    path=f"regions/{code}/",
+                    desc=f'{r["name"]}水域の大学ヨット部。加盟大学ディレクトリと大会成績PDFリンクをまとめています。'))
+
+
+# ---------------------------------------------------------------- universities
+
+def build_universities(data):
+    meta = data["meta"]
+    rel, R = "../../", "../../"
+    for u in data["universities"]:
+        code = u["region"]
+        r = REGIONS[code]
+        pdfs = data["results_by_region"].get(code, [])
+        body = (f'<p class="breadcrumb"><a href="{R}index.html">トップ</a> › '
+                f'<a href="{R}regions/{code}/index.html">{escape(r["name"])}水域</a> › {escape(u["name"])}</p>')
+        body += f'<h1>{escape(u["name"])}</h1>'
+        if u.get("name_en"):
+            body += f'<p class="lead">{escape(u["name_en"])} ／ {escape(r["name"])}水域（{escape(r["federation"])}）</p>'
+        else:
+            body += f'<p class="lead">{escape(r["name"])}水域（{escape(r["federation"])}）</p>'
+
+        if u.get("classes") or u.get("harbor"):
+            body += '<section><h2>基本情報</h2><div class="stat-row">'
+            if u.get("classes"):
+                body += f'<div class="stat"><span class="num">{escape(u["classes"])}</span>出場クラス</div>'
+            if u.get("harbor"):
+                body += f'<div class="stat"><span class="num">{escape(u["harbor"])}</span>練習拠点</div>'
+            body += '</div></section>'
+
+        if u.get("url"):
+            body += (f'<section><h2>公式サイト</h2><p><a class="cta" href="{escape(u["url"])}" '
+                     f'target="_blank" rel="noopener">{escape(u["name"])} 公式サイトへ →</a></p></section>')
+
+        body += ('<section><h2>大会成績</h2>'
+                 '<p class="note">個別大学ごとの戦績データは現時点では集計していません。'
+                 f'{escape(r["name"])}水域全体の大会成績PDFリンクから、この大学の名前で検索してご確認ください。</p>')
+        if pdfs:
+            body += pdf_table("".join(pdf_row(p) for p in pdfs[:10]))
+            body += (f'<p class="more"><a href="{R}regions/{code}/index.html">'
+                     f'{escape(r["name"])}水域の成績PDF一覧へ →</a></p>')
+        body += '</section>'
+
+        write_page(f"universities/{u['slug']}",
+                   page(rel, f'{u["name"]} ヨット部 | ヨットマニア', body, meta,
+                        path=f"universities/{u['slug']}/",
+                        desc=f'{u["name"]}ヨット部。{r["name"]}水域所属。大会成績PDFリンクへの導線。'))
+
+
+# ---------------------------------------------------------------- calendar / results (全件)
+
+def build_calendar_page(data):
+    rel = "../"
+    meta = data["meta"]
+    body = ('<h1>大会カレンダー</h1>'
+            '<p class="lead">近畿北陸学生ヨット連盟の年間予定と、全日本学生ヨット選手権・個人選手権・'
+            '女子選手権の最新の大会情報ページへのリンクです。日付は各連盟の発表表記のまま掲載しています。</p>')
+    if data["calendar"]:
+        body += calendar_table("".join(calendar_row(e, rel) for e in data["calendar"]))
+    else:
+        body += '<p class="note">大会日程は準備中です。</p>'
+    if data["schedule_pdfs"]:
+        body += '<section><h2>全国水域別スケジュール（PDF）</h2><ul>'
+        for p in data["schedule_pdfs"]:
+            body += f'<li><a href="{escape(p["url"])}" target="_blank" rel="noopener">{escape(p["filename"])}</a></li>'
+        body += '</ul></section>'
+    write_page("calendar", page(rel, "大会カレンダー | ヨットマニア", body, meta,
+                                path="calendar/", desc="大学ヨットの大会日程をまとめたカレンダー。"))
+
+
+def build_results_page(data):
+    rel = "../"
+    meta = data["meta"]
+    pdf_count = len(data["results"])
+    body = ('<h1>成績PDFリンク一覧</h1>'
+            '<p class="lead">全日本学生ヨット連盟の水域大会成績ページを毎日巡回し検知した、'
+            f'成績PDFへのリンク{pdf_count}件です。PDFの中身（順位・スコア）は解析せず、'
+            'リンクの一覧化のみを行っています。詳細は各PDFをご確認ください。</p>')
+    for code in REGION_ORDER:
+        pdfs = data["results_by_region"].get(code, [])
+        if not pdfs:
+            continue
+        r = REGIONS[code]
+        body += f'<section><h2>{escape(r["name"])}水域（{len(pdfs)}件）</h2>'
+        body += pdf_table("".join(pdf_row(p) for p in pdfs))
+        body += '</section>'
+    write_page("results", page(rel, "成績PDFリンク一覧 | ヨットマニア", body, meta,
+                               path="results/", desc="大学ヨットの大会成績PDFへのリンク一覧。水域別に毎日更新。"))
+
+
+# ---------------------------------------------------------------- global pages
+
+def build_articles(articles, meta):
+    if not articles:
+        return
+    rel = "../"
+    cards = "".join(article_card(a, rel) for a in articles)
+    body = ('<h1>読みもの</h1>'
+            '<p class="lead">大学ヨットの現場で使える知見をまとめています。</p>'
+            f'<div class="digest">{cards}</div>')
+    write_page("articles",
+               page(rel, "読みもの | ヨットマニア", body, meta,
+                    path="articles/", desc="大学ヨットに関する記事一覧。"))
+    rel = "../../"
+    for a in articles:
+        others = [x for x in articles if x["slug"] != a["slug"]][:3]
+        related = "".join(
+            f'<li><a href="../{x["slug"]}/index.html">{escape(x["title"])}</a></li>'
+            for x in others)
+        body = (f'<p class="breadcrumb"><a href="{rel}index.html">トップ</a> › '
+                f'<a href="{rel}articles/index.html">読みもの</a> › {escape(a["category"])}</p>')
+        body += (f'<p class="cat-line"><span class="cat">{escape(a["category"])}</span>'
+                 f' <span class="note">{escape(a["date"])}</span></p>')
+        body += f'<h1>{escape(a["title"])}</h1>'
+        body += f'<div class="article">{md_to_html(a["body"])}</div>'
+        if related:
+            body += f'<section><h2>あわせて読む</h2><ul>{related}</ul></section>'
+        write_page(f"articles/{a['slug']}",
+                   page(rel, f'{a["title"]} | ヨットマニア', body, meta,
+                        path=f'articles/{a["slug"]}/', desc=a.get("description", ""), og_type="article"))
+
+
+DASHBOARD_PATH = "dash-ym-ops"  # 非公開運用ダッシュボード（noindex・sitemap非掲載）
+
+
+def build_dashboard(data, articles, meta):
+    rel = "../"
+    today = date.today()
+
+    body = ('<h1>運営ダッシュボード</h1>'
+            f'<p class="lead">ヨットマニアの定点観測。毎朝の自動更新で最新化されます。'
+            f'ビルド: {today.isoformat()} / データ取得: {escape(meta["fetched_at"][:16].replace("T", " "))}</p>')
+
+    new_pdfs = sum(1 for p in data["results"] if is_new(p["first_detected_at"]))
+    body += ('<section><h2>サイト全体</h2><div class="stat-row">'
+             f'<div class="stat"><span class="num">{len(_sitemap_paths)}</span>公開ページ</div>'
+             f'<div class="stat"><span class="num">{len(REGION_ORDER)}</span>水域</div>'
+             f'<div class="stat"><span class="num">{len(data["universities"])}</span>加盟大学</div>'
+             f'<div class="stat"><span class="num">{len(data["results"])}</span>成績PDFリンク</div>'
+             f'<div class="stat"><span class="num">{new_pdfs}</span>直近{NEW_WITHIN_DAYS}日の新着</div>'
+             '</div></section>')
+
+    mfile = DATA / "metrics.json"
+    if mfile.exists():
+        mx = json.loads(mfile.read_text(encoding="utf-8"))
+        ga = mx.get("ga", {})
+        gsc = mx.get("gsc", {})
+        body += (f'<section><h2>リリース後の実績（{escape(mx.get("release_date", ""))}〜）</h2>'
+                 '<div class="stat-row">'
+                 f'<div class="stat"><span class="num">{ga.get("total_users", "—")}</span>ユーザー</div>'
+                 f'<div class="stat"><span class="num">{ga.get("total_pageviews", "—")}</span>ページビュー</div>'
+                 f'<div class="stat"><span class="num">{gsc.get("total_clicks", "—")}</span>検索クリック</div>'
+                 '</div>'
+                 f'<p class="note">最終取得: {escape(mx.get("updated_at", ""))}</p></section>')
+    else:
+        body += ('<section><h2>リリース後の実績</h2>'
+                 '<p class="note">GA4/Search Console 未連携。連携が完了すると数値が表示されます。</p></section>')
+
+    rows = ""
+    for code in REGION_ORDER:
+        r = REGIONS[code]
+        n_univ = len(data["by_region"].get(code, []))
+        n_pdf = len(data["results_by_region"].get(code, []))
+        rows += (f'<tr><td><a href="{rel}regions/{code}/index.html">{escape(r["name"])}水域</a></td>'
+                 f'<td>{"○" if r["has_directory"] else "—"}</td><td>{n_univ}</td><td>{n_pdf}</td></tr>')
+    body += ('<section><h2>水域別の状況</h2>'
+             '<div class="tbl"><table><thead><tr><th>水域</th><th>ディレクトリ</th>'
+             '<th>加盟大学</th><th>成績PDF</th></tr></thead>'
+             f'<tbody>{rows}</tbody></table></div></section>')
+
+    body += ('<section><h2>外部ツール（クリックで開く）</h2><ul>'
+             '<li><a href="https://search.google.com/search-console">Search Console</a></li>'
+             '<li><a href="https://analytics.google.com/">GA4</a></li>'
+             '</ul></section>')
+
+    write_page(DASHBOARD_PATH,
+               page(rel, "運営ダッシュボード | ヨットマニア", body, meta,
+                    path=f"{DASHBOARD_PATH}/", desc="運営用の内部ダッシュボード。",
+                    sitemap=False))
+
+
+# ---------------------------------------------------------------- misc output
+
+def write_sitemap_and_robots():
+    today = date.today().isoformat()
+    urls = "".join(
+        f"<url><loc>{SITE_BASE}{p}</loc><lastmod>{today}</lastmod></url>"
+        for p in _sitemap_paths)
+    (SITE / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        + urls + "</urlset>", encoding="utf-8")
+    (SITE / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\n\nSitemap: {SITE_BASE}sitemap.xml\n", encoding="utf-8")
+
+
+FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<rect width="64" height="64" rx="14" fill="#0b3d5c"/>
+<path d="M32 10 L32 40" stroke="#e8b93a" stroke-width="3"/>
+<path d="M32 14 L46 38 L32 34 Z" fill="#ffffff"/>
+<path d="M18 44 Q32 52 46 44 L42 50 Q32 56 22 50 Z" fill="#e8b93a"/>
+</svg>
+"""
+
+STYLE = """
+:root {
+  --ink:#132434; --sub:#5a6b78; --line:#dbe3e8; --bg:#f4f8fa; --surface:#fff;
+  --navy:#0b3d5c; --navy-2:#0f5378; --accent:#e8a93a; --accent-dark:#c88a1c;
+  --win:#15803d; --draw:#b45309; --loss:#b91c1c;
+}
+* { box-sizing:border-box; }
+body { margin:0; font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.7; }
+a { color:var(--navy-2); }
+a:hover { color:var(--accent-dark); }
+
+.site-header { background:var(--navy); }
+.header-inner { max-width:960px; margin:0 auto; padding:.7rem 1rem .5rem;
+  display:flex; flex-wrap:wrap; align-items:center; gap:.3rem 1.5rem; }
+.brand { display:flex; align-items:baseline; gap:.5rem; font-weight:800;
+  color:#fff; text-decoration:none; font-size:1.25rem; letter-spacing:.02em; }
+.brand-tick { width:.55em; height:.55em; background:var(--accent);
+  border-radius:2px; align-self:center; }
+.brand-sub { font-size:.6rem; color:#a9c8db; font-weight:600; letter-spacing:.14em; }
+.global-nav { display:flex; gap:.2rem; overflow-x:auto; margin-left:auto; }
+.global-nav a { color:#d7e9f2; text-decoration:none; font-size:.85rem; font-weight:600;
+  padding:.35em .7em; border-radius:6px; white-space:nowrap; }
+.global-nav a:hover { background:var(--navy-2); color:#fff; }
+
+.hero { background:linear-gradient(120deg, var(--navy) 0%, var(--navy-2) 70%, #1a6d94 100%);
+  color:#fff; margin:0 -1rem; }
+.hero-inner { max-width:960px; margin:0 auto; padding:2.2rem 1rem 2.4rem; }
+.hero-kicker { color:var(--accent); font-weight:700; font-size:.85rem; margin:0 0 .4rem; }
+.hero h1 { font-size:1.5rem; line-height:1.45; margin:0 0 .6rem; }
+.hero-sub { color:#cfe4ee; font-size:.85rem; margin:0; }
+
+main { max-width:960px; margin:0 auto; padding:0 1rem 3rem; }
+h1 { font-size:1.35rem; line-height:1.45; }
+h2 { font-size:1.08rem; border-left:4px solid var(--accent); padding-left:.55em;
+  margin-top:2.4em; }
+h3 { font-size:.95rem; margin-top:1.6em; }
+
+.tbl { overflow-x:auto; background:var(--surface); border:1px solid var(--line);
+  border-radius:10px; }
+table { width:100%; border-collapse:collapse; font-size:.85rem; }
+th, td { border-bottom:1px solid var(--line); padding:.5em .7em; text-align:left;
+  white-space:nowrap; }
+tbody tr:last-child td { border-bottom:none; }
+thead th { background:var(--navy); color:#fff; font-weight:600; font-size:.78rem; }
+tbody tr:nth-child(even) { background:#eef5f8; }
+td.note { color:var(--sub); font-size:.78rem; }
+.cat { background:#e3eef4; color:var(--navy-2); font-size:.72rem; font-weight:700;
+  padding:.15em .5em; border-radius:999px; }
+.cat-alt { background:#fbeecb; color:var(--accent-dark); }
+.new-badge { display:inline-block; background:var(--accent); color:#fff; font-size:.68rem;
+  font-weight:800; padding:.1em .45em; border-radius:5px; letter-spacing:.03em; }
+
+.breadcrumb { font-size:.8rem; color:var(--sub); margin-top:1rem; }
+.breadcrumb a { color:var(--sub); }
+.lead { color:var(--sub); }
+.note { color:var(--sub); font-size:.8rem; }
+.more { margin:.9rem 0 0; }
+.cta { display:inline-block; background:var(--accent); color:#fff; font-weight:700;
+  font-size:.85rem; text-decoration:none; padding:.5em 1.1em; border-radius:8px; }
+.cta:hover { background:var(--accent-dark); color:#fff; }
+
+.stat-row { display:flex; gap:.8rem; flex-wrap:wrap; }
+.stat { background:var(--surface); border:1px solid var(--line); border-radius:10px;
+  padding:.7rem 1.1rem; font-size:.75rem; color:var(--sub); min-width:100px;
+  text-align:center; }
+.stat .num { display:block; font-size:1.25rem; font-weight:800; color:var(--navy); }
+
+.digest { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  gap:1rem; }
+.digest-card { background:var(--surface); border:1px solid var(--line);
+  border-radius:10px; padding:.9rem 1rem 1rem; }
+.digest-card h3 { margin:.1em 0 .6em; }
+.digest-card h3 a { text-decoration:none; color:var(--navy); }
+.digest-card h3 a:hover { color:var(--accent-dark); }
+.digest-card .tbl { border:none; }
+.team-list { list-style:none; margin:0; padding:0; columns:2; font-size:.9rem; }
+.team-list li { margin:.25em 0; break-inside:avoid; }
+
+.sponsor .todo { color:var(--sub); background:var(--surface);
+  border:1px dashed var(--line); border-radius:10px; padding:.8rem; font-size:.85rem; }
+
+.cat-line { font-size:.8rem; margin:.4rem 0; }
+.article { background:var(--surface); border:1px solid var(--line); border-radius:10px;
+  padding:1.4rem 1.6rem 1.6rem; }
+.article h2 { margin-top:1.8em; }
+.article h2:first-child { margin-top:.4em; }
+.article li { margin:.3em 0; }
+
+.site-footer { background:var(--navy); color:#a9c8db; font-size:.75rem;
+  margin-top:3rem; }
+.footer-inner { max-width:960px; margin:0 auto; padding:1.4rem 1rem 2rem; }
+.footer-brand { color:#fff; font-weight:800; font-size:.95rem; margin:0 0 .3rem; }
+.footer-nav { display:flex; gap:1rem; margin:.2rem 0 .8rem; flex-wrap:wrap; }
+.footer-nav a { color:#cfe4ee; text-decoration:none; }
+.site-footer a { color:#cfe4ee; }
+"""
+
+
+def main():
+    if SITE.exists():
+        shutil.rmtree(SITE)
+    SITE.mkdir(parents=True)
+    _sitemap_paths.clear()
+
+    data = load_data()
+    articles = load_articles()
+    if not data["universities"]:
+        raise SystemExit("大学データがありません（fetch_all.pyを先に実行）")
+
+    (SITE / "style.css").write_text(STYLE, encoding="utf-8")
+    (SITE / "assets").mkdir()
+    (SITE / "assets" / "favicon.svg").write_text(FAVICON, encoding="utf-8")
+    if ASSETS.exists():
+        for f in ASSETS.iterdir():
+            shutil.copy(f, SITE / "assets" / f.name)
+
+    build_portal(data, articles)
+    build_regions_index(data)
+    for code in REGION_ORDER:
+        build_region(code, data)
+    build_universities(data)
+    build_calendar_page(data)
+    build_results_page(data)
+    build_articles(articles, data["meta"])
+    build_dashboard(data, articles, data["meta"])
+    write_sitemap_and_robots()
+
+    print(f"OK: {len(_sitemap_paths)} pages "
+          f"({len(REGION_ORDER)} regions, {len(data['universities'])} universities) in {SITE}")
+
+
+if __name__ == "__main__":
+    main()

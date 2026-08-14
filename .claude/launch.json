@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "yachtmania",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8942", "-d", "C:/Users/tatsu/claudecode/yachtmania/site"],
+      "port": 8942
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+ "fetched_at": "2026-08-14T21:47:22",
+ "sources": [
+  {
+   "label": "関東学生ヨット連盟",
+   "url": "https://kantogakuren.org/members"
+  },
+  {
+   "label": "近畿北陸学生ヨット連盟",
+   "url": "https://www.kinhokugakuren.com/スケジュール"
+  },
+  {
+   "label": "全日本学生ヨット連盟",
+   "url": "https://www.zennihon201809.com/"
+  }
+ ],
+ "region_count": 9,
+ "university_count": 46,
+ "calendar_count": 17,
+ "results_pdf_count": 20
+}
