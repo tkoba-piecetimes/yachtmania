@@ -33,9 +33,111 @@ CONTENT = ROOT / "content" / "articles"
 SITE_BASE = "https://yachtmania.jp/"
 GA_MEASUREMENT_ID = "G-SMC597ZSPZ"  # GA4「ヨットマニア」専用プロパティ（550004558）
 GSC_VERIFICATION = "0X77J6-cDQak8VJkyt1PGegqMjZwEI2HWAYjkwl3OF0"  # Search Console所有権確認トークン（アカウント共通）
-SPONSOR_CTA_URL = "https://tunakare.jp/?utm_source=yachtmania&utm_medium=referral&utm_campaign=sponsor"
 
 NEW_WITHIN_DAYS = 14  # 「新着成績」として表示する検知日からの日数
+
+# ---------------------------------------------------------------- ツナカレ接続導線
+# 設計: crm/docs/部活メディア_ツナカレ接続設計_2026-08.md（D1〜D5）
+
+TUNAKARE_UTM_SOURCE = "yachtmania"
+
+TUNAKARE_BASE = {
+    "sponsor_search": "https://tunakare.jp/sponsorship/search/p/{slug}",
+    "sponsor_top": "https://tunakare.jp/",
+    "listing_lp": "https://lp.tunakare.jp/s01/",
+    "media_contact": "https://media.tunakare.jp/contact/student/",
+    "shukatsu": "https://shukatsu.tunakare.jp/",
+    "career": "https://career.tunakare.jp/",
+}
+
+
+def tunakare_url(base_url: str, campaign: str) -> str:
+    sep = "&" if "?" in base_url else "?"
+    return f"{base_url}{sep}utm_source={TUNAKARE_UTM_SOURCE}&utm_medium=referral&utm_campaign={campaign}"
+
+
+def tunakare_link(url: str, label: str, cv_event: str, cls: str = "cta") -> str:
+    return (f'<a class="{cls}" href="{escape(url)}" target="_blank" rel="noopener sponsored" '
+            f"onclick=\"window.gtag&&gtag('event','{cv_event}')\">{escape(label)}</a>")
+
+
+SPONSOR_CTA_URL = tunakare_url(TUNAKARE_BASE["sponsor_top"], "sponsor")
+
+
+def build_sponsor_block(slug: str, display_name: str, links_map: dict, *, heading="この部を応援する") -> str:
+    """D2: チームページ（本サイトではハブ型MVPのため大学ページ）の応援ブロック。
+
+    マッピング有: slug直リンクで当該部活の協賛募集ページへ（cv_sponsor_click）。
+    マッピング無: 応援できる部活を探す（tunakare.jp・cv_sponsor_click）＋
+                 関係者向け「協賛募集を無料で掲載」（lp s01・cv_listing_click）。
+    共通: 「取材してほしい部活を募集」（media contact・cv_media_pr_click）。
+    """
+    mapping = (links_map or {}).get(slug)
+    body = f'<section class="sponsor"><h2>{escape(heading)} <span class="pr-badge">PR</span></h2>'
+    if mapping and mapping.get("sponsorship_slug"):
+        community = mapping.get("community") or display_name
+        sponsor_url = tunakare_url(
+            TUNAKARE_BASE["sponsor_search"].format(slug=mapping["sponsorship_slug"]), "sponsor")
+        body += (f'<p>{tunakare_link(sponsor_url, f"{community}の協賛募集を見る →", "cv_sponsor_click")}</p>')
+    else:
+        sponsor_top = tunakare_url(TUNAKARE_BASE["sponsor_top"], "sponsor")
+        listing_url = tunakare_url(TUNAKARE_BASE["listing_lp"], "listing")
+        body += (f'<p>{tunakare_link(sponsor_top, "応援できる部活を探す →", "cv_sponsor_click")}</p>'
+                 f'<p class="note">掲載をご希望の部活関係者の方へ: '
+                 f'{tunakare_link(listing_url, "協賛募集を無料で掲載する →", "cv_listing_click", cls="cta cta-alt")}</p>')
+    media_url = tunakare_url(TUNAKARE_BASE["media_contact"], "media-pr")
+    body += (f'<p class="note">取材してほしい部活を募集中: '
+             f'{tunakare_link(media_url, "取材を依頼する →", "cv_media_pr_click", cls="cta cta-alt")}</p>')
+    body += '</section>'
+    return body
+
+
+# D3: 記事frontmatterの cta 値ごとのCTA帯
+CTA_BANDS = {
+    "shukatsu": {
+        "heading": "部活と就活の両立、ひとりで悩まない",
+        "text": "体育会学生向けの無料就活相談。文武両道の悩みを相談できます。",
+        "label": "無料で相談する →",
+        "base": "shukatsu",
+        "campaign": "shukatsu",
+        "cv": "cv_shukatsu_click",
+    },
+    "career": {
+        "heading": "体育会出身の転職・キャリアを考える",
+        "text": "競技経験を活かしたキャリア相談。OB・OGの転職支援を行っています。",
+        "label": "キャリア相談を見る →",
+        "base": "career",
+        "campaign": "career",
+        "cv": "cv_career_click",
+    },
+    "listing": {
+        "heading": "遠征費・運営資金でお困りの部活の方へ",
+        "text": "協賛募集の掲載は無料。30万円のオープン協賛枠も用意されています。",
+        "label": "協賛募集を無料で掲載する →",
+        "base": "listing_lp",
+        "campaign": "listing",
+        "cv": "cv_listing_click",
+    },
+    "sponsor": {
+        "heading": "この部活・競技を応援したい方へ",
+        "text": "体育会学生を支援するプラットフォーム「ツナカレ」で、応援できる部活を探せます。",
+        "label": "応援できる部活を探す →",
+        "base": "sponsor_top",
+        "campaign": "sponsor",
+        "cv": "cv_sponsor_click",
+    },
+}
+
+
+def cta_band(cta_value: str | None) -> str:
+    cfg = CTA_BANDS.get((cta_value or "").strip())
+    if not cfg:
+        return ""
+    url = tunakare_url(TUNAKARE_BASE[cfg["base"]], cfg["campaign"])
+    return ('<section class="cta-band">'
+            f'<p class="pr-badge">PR</p><h2>{escape(cfg["heading"])}</h2>'
+            f'<p>{escape(cfg["text"])}</p>'
+            f'<p>{tunakare_link(url, cfg["label"], cfg["cv"])}</p></section>')
 
 _sitemap_paths: list[str] = []
 
@@ -56,6 +158,7 @@ def load_data():
     schedule_pdfs = load_json("schedule_pdfs.json", [])
     meta = load_json("meta.json", {"fetched_at": datetime.now().isoformat(timespec="seconds"),
                                     "sources": []})
+    tunakare_links = load_json("tunakare_links.json", {})
 
     by_region: dict[str, list] = {code: [] for code in REGION_ORDER}
     for u in universities:
@@ -79,6 +182,7 @@ def load_data():
         "results_by_region": results_by_region,
         "schedule_pdfs": schedule_pdfs,
         "meta": meta,
+        "tunakare_links": tunakare_links,
     }
 
 
@@ -378,6 +482,23 @@ def build_portal(data, articles):
                  f'<span class="cat">成績PDF {n_pdf}件</span></p></div>')
     body += '</div></section>'
 
+    sponsor_top = tunakare_url(TUNAKARE_BASE["sponsor_top"], "sponsor")
+    listing_url = tunakare_url(TUNAKARE_BASE["listing_lp"], "listing")
+    media_url = tunakare_url(TUNAKARE_BASE["media_contact"], "media-pr")
+    body += ('<section class="support"><h2>ヨットマニアと部活を応援する <span class="pr-badge">PR</span></h2>'
+             '<p class="lead">体育会学生を支援するプラットフォーム「ツナカレ」への接続導線です。</p>'
+             '<div class="support-cards">'
+             '<div class="digest-card"><h3>部活を応援する</h3>'
+             '<p class="note">協賛・応援ができる部活を探せます。</p>'
+             f'<p>{tunakare_link(sponsor_top, "応援できる部活を探す →", "cv_sponsor_click")}</p></div>'
+             '<div class="digest-card"><h3>無料で掲載する</h3>'
+             '<p class="note">部活の関係者の方へ。協賛募集ページを無料で掲載できます。</p>'
+             f'<p>{tunakare_link(listing_url, "協賛募集を掲載する →", "cv_listing_click", cls="cta cta-alt")}</p></div>'
+             '<div class="digest-card"><h3>取材募集</h3>'
+             '<p class="note">取材してほしい部活を募集しています。</p>'
+             f'<p>{tunakare_link(media_url, "取材を依頼する →", "cv_media_pr_click", cls="cta cta-alt")}</p></div>'
+             '</div></section>')
+
     if articles:
         body += ('<section><h2>読みもの</h2><div class="digest">'
                  + "".join(article_card(a, rel) for a in articles[:3])
@@ -452,10 +573,7 @@ def build_region(code, data):
         body += '<p class="note">この水域の成績PDFはまだ検知されていません。</p>'
     body += '</section>'
 
-    body += ('<section class="sponsor"><h2>この水域を応援する企業</h2>'
-             '<p class="todo">（協賛メニュー連携枠：スポンサー企業ロゴ・リンクをここに配置）</p>'
-             f'<p><a class="cta" href="{SPONSOR_CTA_URL}" target="_blank" rel="noopener" '
-             'onclick="window.gtag&&gtag(\'event\',\'cv_sponsor_click\')">協賛について問い合わせる →</a></p></section>')
+    body += build_sponsor_block(None, r["name"], {}, heading=f'{r["name"]}水域の部活を応援する')
 
     title = f'{r["name"]}水域の大学ヨット 加盟大学・大会成績 | ヨットマニア'
     write_page(f"regions/{code}",
@@ -501,6 +619,8 @@ def build_universities(data):
             body += (f'<p class="more"><a href="{R}regions/{code}/index.html">'
                      f'{escape(r["name"])}水域の成績PDF一覧へ →</a></p>')
         body += '</section>'
+
+        body += build_sponsor_block(u["slug"], f'{u["name"]}ヨット部', data["tunakare_links"])
 
         write_page(f"universities/{u['slug']}",
                    page(rel, f'{u["name"]} ヨット部 | ヨットマニア', body, meta,
@@ -574,6 +694,7 @@ def build_articles(articles, meta):
                  f' <span class="note">{escape(a["date"])}</span></p>')
         body += f'<h1>{escape(a["title"])}</h1>'
         body += f'<div class="article">{md_to_html(a["body"])}</div>'
+        body += cta_band(a.get("cta"))
         if related:
             body += f'<section><h2>あわせて読む</h2><ul>{related}</ul></section>'
         write_page(f"articles/{a['slug']}",
@@ -744,6 +865,19 @@ td.note { color:var(--sub); font-size:.78rem; }
 
 .sponsor .todo { color:var(--sub); background:var(--surface);
   border:1px dashed var(--line); border-radius:10px; padding:.8rem; font-size:.85rem; }
+
+.pr-badge { display:inline-block; background:#c88a1c22; color:var(--accent-dark);
+  font-size:.62rem; font-weight:800; padding:.12em .5em; border-radius:5px;
+  letter-spacing:.05em; vertical-align:middle; margin-left:.3em; }
+.cta.cta-alt { background:transparent; border:1px solid var(--accent-dark);
+  color:var(--accent-dark); }
+.cta.cta-alt:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+.cta-band { background:var(--surface); border:1px solid var(--line); border-radius:10px;
+  padding:1.1rem 1.3rem 1.3rem; margin-top:2.2rem; }
+.cta-band h2 { margin-top:.3em; border:none; padding-left:0; }
+.cta-band .pr-badge { margin-left:0; }
+.support-cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:1rem; }
 
 .cat-line { font-size:.8rem; margin:.4rem 0; }
 .article { background:var(--surface); border:1px solid var(--line); border-radius:10px;

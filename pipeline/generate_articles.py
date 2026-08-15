@@ -185,7 +185,8 @@ def build_article(g: dict) -> str:
     fm = (f"title: {title}\n"
           f"description: {description}\n"
           f"date: {g['detected_at']}\n"
-          f"category: {CATEGORY}\n")
+          f"category: {CATEGORY}\n"
+          f"cta: sponsor\n")
     return f"---\n{fm}---\n{body}\n"
 
 

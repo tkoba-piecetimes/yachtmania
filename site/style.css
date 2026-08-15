@@ -80,6 +80,19 @@ td.note { color:var(--sub); font-size:.78rem; }
 .sponsor .todo { color:var(--sub); background:var(--surface);
   border:1px dashed var(--line); border-radius:10px; padding:.8rem; font-size:.85rem; }
 
+.pr-badge { display:inline-block; background:#c88a1c22; color:var(--accent-dark);
+  font-size:.62rem; font-weight:800; padding:.12em .5em; border-radius:5px;
+  letter-spacing:.05em; vertical-align:middle; margin-left:.3em; }
+.cta.cta-alt { background:transparent; border:1px solid var(--accent-dark);
+  color:var(--accent-dark); }
+.cta.cta-alt:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+.cta-band { background:var(--surface); border:1px solid var(--line); border-radius:10px;
+  padding:1.1rem 1.3rem 1.3rem; margin-top:2.2rem; }
+.cta-band h2 { margin-top:.3em; border:none; padding-left:0; }
+.cta-band .pr-badge { margin-left:0; }
+.support-cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:1rem; }
+
 .cat-line { font-size:.8rem; margin:.4rem 0; }
 .article { background:var(--surface); border:1px solid var(--line); border-radius:10px;
   padding:1.4rem 1.6rem 1.6rem; }
