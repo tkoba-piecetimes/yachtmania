@@ -42,7 +42,6 @@ NEW_WITHIN_DAYS = 14  # 「新着成績」として表示する検知日から�
 TUNAKARE_UTM_SOURCE = "yachtmania"
 
 TUNAKARE_BASE = {
-    "sponsor_search": "https://tunakare.jp/sponsorship/search/p/{slug}",
     "sponsor_top": "https://tunakare.jp/",
     "listing_lp": "https://lp.tunakare.jp/s01/",
     "media_contact": "https://media.tunakare.jp/contact/student/",
@@ -64,27 +63,20 @@ def tunakare_link(url: str, label: str, cv_event: str, cls: str = "cta") -> str:
 SPONSOR_CTA_URL = tunakare_url(TUNAKARE_BASE["sponsor_top"], "sponsor")
 
 
-def build_sponsor_block(slug: str, display_name: str, links_map: dict, *, heading="この部を応援する") -> str:
-    """D2: チームページ（本サイトではハブ型MVPのため大学ページ）の応援ブロック。
+def build_sponsor_block(*, heading="この部を応援する") -> str:
+    """D2改訂版: チームページ（本サイトではハブ型MVPのため大学ページ）の応援ブロック。
 
-    マッピング有: slug直リンクで当該部活の協賛募集ページへ（cv_sponsor_click）。
-    マッピング無: 応援できる部活を探す（tunakare.jp・cv_sponsor_click）＋
-                 関係者向け「協賛募集を無料で掲載」（lp s01・cv_listing_click）。
-    共通: 「取材してほしい部活を募集」（media contact・cv_media_pr_click）。
+    全チーム共通の汎用3導線を表示する。個別部活への協賛ページ直リンク・団体名表示は
+    行わない（募集中の部活はツナカレに遷移して初めてわかる設計。案件には締切・停止が
+    あり静的サイト側に募集状況を持つと管理不能になるため）。
     """
-    mapping = (links_map or {}).get(slug)
     body = f'<section class="sponsor"><h2>{escape(heading)} <span class="pr-badge">PR</span></h2>'
-    if mapping and mapping.get("sponsorship_slug"):
-        community = mapping.get("community") or display_name
-        sponsor_url = tunakare_url(
-            TUNAKARE_BASE["sponsor_search"].format(slug=mapping["sponsorship_slug"]), "sponsor")
-        body += (f'<p>{tunakare_link(sponsor_url, f"{community}の協賛募集を見る →", "cv_sponsor_click")}</p>')
-    else:
-        sponsor_top = tunakare_url(TUNAKARE_BASE["sponsor_top"], "sponsor")
-        listing_url = tunakare_url(TUNAKARE_BASE["listing_lp"], "listing")
-        body += (f'<p>{tunakare_link(sponsor_top, "応援できる部活を探す →", "cv_sponsor_click")}</p>'
-                 f'<p class="note">掲載をご希望の部活関係者の方へ: '
-                 f'{tunakare_link(listing_url, "協賛募集を無料で掲載する →", "cv_listing_click", cls="cta cta-alt")}</p>')
+    sponsor_top = tunakare_url(TUNAKARE_BASE["sponsor_top"], "sponsor")
+    listing_url = tunakare_url(TUNAKARE_BASE["listing_lp"], "listing")
+    body += (f'<p>この部活・競技を応援したい方へ: '
+             f'{tunakare_link(sponsor_top, "ツナカレで協賛募集中の部活を探す →", "cv_sponsor_click")}</p>'
+             f'<p class="note">掲載をご希望の部活関係者の方へ: '
+             f'{tunakare_link(listing_url, "協賛募集を無料で掲載する →", "cv_listing_click", cls="cta cta-alt")}</p>')
     media_url = tunakare_url(TUNAKARE_BASE["media_contact"], "media-pr")
     body += (f'<p class="note">取材してほしい部活を募集中: '
              f'{tunakare_link(media_url, "取材を依頼する →", "cv_media_pr_click", cls="cta cta-alt")}</p>')
@@ -158,7 +150,6 @@ def load_data():
     schedule_pdfs = load_json("schedule_pdfs.json", [])
     meta = load_json("meta.json", {"fetched_at": datetime.now().isoformat(timespec="seconds"),
                                     "sources": []})
-    tunakare_links = load_json("tunakare_links.json", {})
 
     by_region: dict[str, list] = {code: [] for code in REGION_ORDER}
     for u in universities:
@@ -182,7 +173,6 @@ def load_data():
         "results_by_region": results_by_region,
         "schedule_pdfs": schedule_pdfs,
         "meta": meta,
-        "tunakare_links": tunakare_links,
     }
 
 
@@ -573,7 +563,7 @@ def build_region(code, data):
         body += '<p class="note">この水域の成績PDFはまだ検知されていません。</p>'
     body += '</section>'
 
-    body += build_sponsor_block(None, r["name"], {}, heading=f'{r["name"]}水域の部活を応援する')
+    body += build_sponsor_block(heading=f'{r["name"]}水域の部活を応援する')
 
     title = f'{r["name"]}水域の大学ヨット 加盟大学・大会成績 | ヨットマニア'
     write_page(f"regions/{code}",
@@ -620,7 +610,7 @@ def build_universities(data):
                      f'{escape(r["name"])}水域の成績PDF一覧へ →</a></p>')
         body += '</section>'
 
-        body += build_sponsor_block(u["slug"], f'{u["name"]}ヨット部', data["tunakare_links"])
+        body += build_sponsor_block()
 
         write_page(f"universities/{u['slug']}",
                    page(rel, f'{u["name"]} ヨット部 | ヨットマニア', body, meta,
