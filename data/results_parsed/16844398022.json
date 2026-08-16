@@ -1,0 +1,99 @@
+{
+ "tier": "summary",
+ "rows": [
+  {
+   "name": "日本大学",
+   "sail_no": "1",
+   "score": "134",
+   "rank": "1"
+  },
+  {
+   "name": "早稲田大学",
+   "sail_no": "97",
+   "score": "170",
+   "rank": "2"
+  },
+  {
+   "name": "慶應義塾大学",
+   "sail_no": "25",
+   "score": "223",
+   "rank": "3"
+  },
+  {
+   "name": "東京大学",
+   "sail_no": "49",
+   "score": "349",
+   "rank": "4"
+  },
+  {
+   "name": "明治大学",
+   "sail_no": "106",
+   "score": "390",
+   "rank": "5"
+  },
+  {
+   "name": "明海大学",
+   "sail_no": "19",
+   "score": "495",
+   "rank": "6"
+  },
+  {
+   "name": "法政大学",
+   "sail_no": "13",
+   "score": "555",
+   "rank": "7"
+  },
+  {
+   "name": "中央大学",
+   "sail_no": "103",
+   "score": "564",
+   "rank": "8"
+  },
+  {
+   "name": "横浜国立大学",
+   "sail_no": "67",
+   "score": "574",
+   "rank": "9"
+  },
+  {
+   "name": "立教大学",
+   "sail_no": "34",
+   "score": "607.6",
+   "rank": "10"
+  },
+  {
+   "name": "東京科学大学",
+   "sail_no": "4",
+   "score": "752",
+   "rank": "11"
+  },
+  {
+   "name": "青山学院大学",
+   "sail_no": "40",
+   "score": "829",
+   "rank": "12"
+  },
+  {
+   "name": "千葉大学",
+   "sail_no": "58",
+   "score": "832",
+   "rank": "13"
+  },
+  {
+   "name": "芝浦工業大学",
+   "sail_no": "70",
+   "score": "909",
+   "rank": "14"
+  },
+  {
+   "name": "工学院大学",
+   "sail_no": "133",
+   "score": "1000",
+   "rank": "15"
+  }
+ ],
+ "score_label": "団体得点",
+ "rank_label": "団体順位",
+ "parsed_at": "2026-08-16T15:32:25",
+ "id": "16844398022"
+}

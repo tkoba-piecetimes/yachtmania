@@ -1,0 +1,39 @@
+{
+ "tier": "summary",
+ "rows": [
+  {
+   "name": "広島大学",
+   "sail_no": "",
+   "score": "39",
+   "rank": "1"
+  },
+  {
+   "name": "岡山大学",
+   "sail_no": "",
+   "score": "52",
+   "rank": "2"
+  },
+  {
+   "name": "広島工業大学",
+   "sail_no": "",
+   "score": "102",
+   "rank": "3"
+  },
+  {
+   "name": "山口大学",
+   "sail_no": "",
+   "score": "137",
+   "rank": "4"
+  },
+  {
+   "name": "広島修道大学",
+   "sail_no": "",
+   "score": "138",
+   "rank": "5"
+  }
+ ],
+ "score_label": "得点",
+ "rank_label": "順位",
+ "parsed_at": "2026-08-16T15:32:18",
+ "id": "16844400022"
+}

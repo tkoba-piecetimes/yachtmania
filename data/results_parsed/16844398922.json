@@ -1,0 +1,93 @@
+{
+ "tier": "summary",
+ "rows": [
+  {
+   "name": "中央大学",
+   "sail_no": "103",
+   "score": "64",
+   "rank": "1"
+  },
+  {
+   "name": "横浜市立大学",
+   "sail_no": "91",
+   "score": "104",
+   "rank": "2"
+  },
+  {
+   "name": "東京大学",
+   "sail_no": "49",
+   "score": "140",
+   "rank": "3"
+  },
+  {
+   "name": "横浜国立大学",
+   "sail_no": "67",
+   "score": "176",
+   "rank": "4"
+  },
+  {
+   "name": "一橋大学",
+   "sail_no": "109",
+   "score": "190",
+   "rank": "5"
+  },
+  {
+   "name": "東京農工大学",
+   "sail_no": "46",
+   "score": "218",
+   "rank": "6"
+  },
+  {
+   "name": "成蹊大学",
+   "sail_no": "85",
+   "score": "246",
+   "rank": "7"
+  },
+  {
+   "name": "東海大学",
+   "sail_no": "79",
+   "score": "251",
+   "rank": "8"
+  },
+  {
+   "name": "東京都立大学",
+   "sail_no": "82",
+   "score": "269",
+   "rank": "9"
+  },
+  {
+   "name": "東京海洋大学",
+   "sail_no": "64",
+   "score": "294",
+   "rank": "10"
+  },
+  {
+   "name": "成城大学",
+   "sail_no": "112",
+   "score": "353",
+   "rank": "11"
+  },
+  {
+   "name": "獨協大学",
+   "sail_no": "7",
+   "score": "416",
+   "rank": "12"
+  },
+  {
+   "name": "電気通信大学",
+   "sail_no": "124",
+   "score": "451.5",
+   "rank": "13"
+  },
+  {
+   "name": "防衛大学",
+   "sail_no": "127",
+   "score": "464",
+   "rank": "14"
+  }
+ ],
+ "score_label": "団体得点",
+ "rank_label": "団体順位",
+ "parsed_at": "2026-08-16T15:32:23",
+ "id": "16844398922"
+}

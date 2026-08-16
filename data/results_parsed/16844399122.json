@@ -1,0 +1,45 @@
+{
+ "tier": "summary",
+ "rows": [
+  {
+   "name": "名古屋大学",
+   "sail_no": "",
+   "score": "42",
+   "rank": "1"
+  },
+  {
+   "name": "愛知大学",
+   "sail_no": "",
+   "score": "151",
+   "rank": "2"
+  },
+  {
+   "name": "愛知工業大学",
+   "sail_no": "",
+   "score": "204",
+   "rank": "3"
+  },
+  {
+   "name": "名城大学",
+   "sail_no": "",
+   "score": "210",
+   "rank": "4"
+  },
+  {
+   "name": "愛知学院大学",
+   "sail_no": "",
+   "score": "267",
+   "rank": "5"
+  },
+  {
+   "name": "東海大学静岡キャンパス",
+   "sail_no": "",
+   "score": "317",
+   "rank": "6"
+  }
+ ],
+ "score_label": "団体合計",
+ "rank_label": "順位",
+ "parsed_at": "2026-08-16T15:32:23",
+ "id": "16844399122"
+}

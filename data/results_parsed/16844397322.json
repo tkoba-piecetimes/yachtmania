@@ -1,0 +1,27 @@
+{
+ "tier": "summary",
+ "rows": [
+  {
+   "name": "北海道大学",
+   "sail_no": "1",
+   "score": "30",
+   "rank": "1"
+  },
+  {
+   "name": "小樽商科大学",
+   "sail_no": "７",
+   "score": "51",
+   "rank": "2"
+  },
+  {
+   "name": "室蘭工業大学",
+   "sail_no": "10",
+   "score": "75",
+   "rank": "3"
+  }
+ ],
+ "score_label": "団体得点",
+ "rank_label": "団体順位",
+ "parsed_at": "2026-08-16T15:32:27",
+ "id": "16844397322"
+}

@@ -1,0 +1,45 @@
+{
+ "tier": "summary",
+ "rows": [
+  {
+   "name": "北海道大学",
+   "sail_no": "JPN29175",
+   "score": "12",
+   "rank": "1"
+  },
+  {
+   "name": "北海道大学",
+   "sail_no": "JPN31416",
+   "score": "12",
+   "rank": "2"
+  },
+  {
+   "name": "北海道大学",
+   "sail_no": "JPN30801",
+   "score": "12",
+   "rank": "3"
+  },
+  {
+   "name": "北海道大学",
+   "sail_no": "JPN31519",
+   "score": "15",
+   "rank": "4"
+  },
+  {
+   "name": "北海道大学",
+   "sail_no": "JPN30020",
+   "score": "19",
+   "rank": "5"
+  },
+  {
+   "name": "北海道大学",
+   "sail_no": "JPN30636",
+   "score": "21",
+   "rank": "6"
+  }
+ ],
+ "score_label": "個別得点",
+ "rank_label": "個別順位",
+ "parsed_at": "2026-08-16T15:32:27",
+ "id": "16844397522"
+}
