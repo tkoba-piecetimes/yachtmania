@@ -514,7 +514,7 @@ def build_portal(data, articles):
         r = REGIONS[code]
         n_univ = len(data["by_region"].get(code, []))
         n_pdf = len(data["results_by_region"].get(code, []))
-        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリは対応エリア外'
+        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリ 未掲載'
         body += (f'<div class="digest-card"><h3><a href="regions/{code}/index.html">{escape(r["name"])}水域</a></h3>'
                  f'<p class="cat-line"><span class="cat">{escape(dir_note)}</span> '
                  f'<span class="cat">成績PDF {n_pdf}件</span></p></div>')
@@ -562,7 +562,7 @@ def build_regions_index(data):
         r = REGIONS[code]
         n_univ = len(data["by_region"].get(code, []))
         n_pdf = len(data["results_by_region"].get(code, []))
-        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリは対応エリア外'
+        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリ 未掲載'
         cards += (f'<div class="digest-card"><h3><a href="{rel}regions/{code}/index.html">{escape(r["name"])}水域</a></h3>'
                   f'<p class="note">{escape(r["federation"])}</p>'
                   f'<p class="cat-line"><span class="cat">{escape(dir_note)}</span> '
@@ -596,9 +596,9 @@ def build_region(code, data):
         body += '</ul></section>'
     else:
         body += ('<section><h2>加盟大学ディレクトリ</h2>'
-                 '<p class="note">この水域の加盟大学一覧は現在ヨットマニアの対応エリア外です'
-                 '（公式サイトが未確認、または全日本学連の加盟校名簿がPDF/Excel配布のみのため掲載できていません）。'
-                 '対応エリアは今後拡大していく予定です。大会成績PDFは全水域で掲載しています。</p></section>')
+                 '<p class="note">この水域の加盟大学一覧はまだ掲載できていません'
+                 '（公式サイトの大学一覧ページが見つからない、または全日本学連の加盟校名簿がPDF・Excel形式でしか'
+                 '配布されていないためです）。掲載できる水域は今後増やしていく予定です。大会成績PDFは全水域で掲載しています。</p></section>')
 
     if cal:
         body += '<section><h2>大会カレンダー</h2>' + calendar_table("".join(calendar_row(e, L, show_region=False) for e in cal), show_region=False) + '</section>'
