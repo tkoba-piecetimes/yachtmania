@@ -28,9 +28,11 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install pykakasi
+        run: pip install pykakasi pdfplumber
       - name: Fetch yacht data (加盟大学・大会カレンダー・成績PDFリンク)
         run: python pipeline/fetch_all.py
+      - name: Parse result PDFs (新規検知分のみ表構造を解析)
+        run: python pipeline/fetch_pdf_results.py
       - name: Generate new-result articles (Type A / 新着成績記事)
         run: python pipeline/generate_articles.py
       - name: Generate site

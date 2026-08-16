@@ -1,0 +1,436 @@
+{
+ "tier": "boat",
+ "race_labels": [
+  "1R",
+  "2R",
+  "3R"
+ ],
+ "boats": [
+  {
+   "rank": "2",
+   "sail_no": "31697",
+   "university": "日本経済大学",
+   "skipper": "橋本 和佳",
+   "crew": "井上 幸",
+   "races": [
+    "7 7 7",
+    "4 4 4",
+    "4 4 4"
+   ],
+   "total": "15",
+   "boat_score": "15",
+   "boat_rank": "2",
+   "team_score": "54.0",
+   "team_rank": "1"
+  },
+  {
+   "rank": "1",
+   "sail_no": "31650",
+   "university": "日本経済大学",
+   "skipper": "中村 乃々子",
+   "crew": "小田切 詞音",
+   "races": [
+    "5 5 5",
+    "6 6 6",
+    "1 1 1"
+   ],
+   "total": "12",
+   "boat_score": "12",
+   "boat_rank": "1",
+   "team_score": "54.0",
+   "team_rank": "1"
+  },
+  {
+   "rank": "9",
+   "sail_no": "31620",
+   "university": "日本経済大学",
+   "skipper": "福島 利輝",
+   "crew": "糸瀬 瑛喜一",
+   "races": [
+    "13 13 13",
+    "5 5 5",
+    "10 9 9"
+   ],
+   "total": "27",
+   "boat_score": "27",
+   "boat_rank": "9",
+   "team_score": "54.0",
+   "team_rank": "1"
+  },
+  {
+   "rank": "13",
+   "sail_no": "31557",
+   "university": "九州大学",
+   "skipper": "豊澄 成光",
+   "crew": "久野 克海",
+   "races": [
+    "8 8 8",
+    "11 11 11",
+    "12 11 11"
+   ],
+   "total": "30",
+   "boat_score": "30",
+   "boat_rank": "13",
+   "team_score": "69.0",
+   "team_rank": "2"
+  },
+  {
+   "rank": "7",
+   "sail_no": "31873",
+   "university": "九州大学",
+   "skipper": "橋本 拓実",
+   "crew": "八木 宥仁",
+   "races": [
+    "2 2 2",
+    "8 8 8",
+    "11 10 10"
+   ],
+   "total": "20",
+   "boat_score": "20",
+   "boat_rank": "7",
+   "team_score": "69.0",
+   "team_rank": "2"
+  },
+  {
+   "rank": "5",
+   "sail_no": "31272",
+   "university": "九州大学",
+   "skipper": "佐藤 勇瑠",
+   "crew": "佐伯 晴大",
+   "races": [
+    "6 6 6",
+    "1 1 1",
+    "13 12 12"
+   ],
+   "total": "19",
+   "boat_score": "19",
+   "boat_rank": "5",
+   "team_score": "69.0",
+   "team_rank": "2"
+  },
+  {
+   "rank": "10",
+   "sail_no": "31711",
+   "university": "福岡大学",
+   "skipper": "幸野 翔太",
+   "crew": "中野 温",
+   "races": [
+    "4 4 4",
+    "3 3 3",
+    "5 UFD 21"
+   ],
+   "total": "28",
+   "boat_score": "28",
+   "boat_rank": "10",
+   "team_score": "71.0",
+   "team_rank": "3"
+  },
+  {
+   "rank": "8",
+   "sail_no": "31688",
+   "university": "福岡大学",
+   "skipper": "渡邉 結来",
+   "crew": "音藤 陽大",
+   "races": [
+    "14 14 14",
+    "10 10 10",
+    "3 3 3"
+   ],
+   "total": "27",
+   "boat_score": "27",
+   "boat_rank": "8",
+   "team_score": "71.0",
+   "team_rank": "3"
+  },
+  {
+   "rank": "3",
+   "sail_no": "31522",
+   "university": "福岡大学",
+   "skipper": "古賀 弘晃",
+   "crew": "廣重 翔",
+   "races": [
+    "12 12 12",
+    "2 2 2",
+    "2 2 2"
+   ],
+   "total": "16",
+   "boat_score": "16",
+   "boat_rank": "3",
+   "team_score": "71.0",
+   "team_rank": "3"
+  },
+  {
+   "rank": "4",
+   "sail_no": "30348",
+   "university": "鹿屋体育大学",
+   "skipper": "池永 誇太朗",
+   "crew": "西平 優菜",
+   "races": [
+    "3 3 3",
+    "9 9 9",
+    "6 5 5"
+   ],
+   "total": "17",
+   "boat_score": "17",
+   "boat_rank": "4",
+   "team_score": "84.3",
+   "team_rank": "4"
+  },
+  {
+   "rank": "6",
+   "sail_no": "30917",
+   "university": "鹿屋体育大学",
+   "skipper": "中川 望夢",
+   "crew": "石川 さくら",
+   "races": [
+    "1 1 1",
+    "12 12 12",
+    "8 7 7"
+   ],
+   "total": "20",
+   "boat_score": "20",
+   "boat_rank": "6",
+   "team_score": "84.3",
+   "team_rank": "4"
+  },
+  {
+   "rank": "15",
+   "sail_no": "30104",
+   "university": "鹿屋体育大学",
+   "skipper": "黒田 美海",
+   "crew": "中鉢 賢匠",
+   "races": [
+    "11 PRP 17.3",
+    "17 17 17",
+    "14 13 13"
+   ],
+   "total": "47.3",
+   "boat_score": "47.3",
+   "boat_rank": "15",
+   "team_score": "84.3",
+   "team_rank": "4"
+  },
+  {
+   "rank": "12",
+   "sail_no": "31687",
+   "university": "鹿児島国際大学",
+   "skipper": "木田 丞志郎",
+   "crew": "大橋 祐太郎",
+   "races": [
+    "9 9 9",
+    "13 13 13",
+    "9 8 8"
+   ],
+   "total": "30",
+   "boat_score": "30",
+   "boat_rank": "12",
+   "team_score": "123.0",
+   "team_rank": "5"
+  },
+  {
+   "rank": "17",
+   "sail_no": "30542",
+   "university": "鹿児島国際大学",
+   "skipper": "星本 幸輝",
+   "crew": "仙田 沙也加",
+   "races": [
+    "19 19 19",
+    "15 15 15",
+    "18 16 16"
+   ],
+   "total": "50",
+   "boat_score": "50",
+   "boat_rank": "17",
+   "team_score": "123.0",
+   "team_rank": "5"
+  },
+  {
+   "rank": "14",
+   "sail_no": "30201",
+   "university": "鹿児島国際大学",
+   "skipper": "梅橋 佑日",
+   "crew": "福吉 優樹",
+   "races": [
+    "10 10 10",
+    "16 16 16",
+    "19 17 17"
+   ],
+   "total": "43",
+   "boat_score": "43",
+   "boat_rank": "14",
+   "team_score": "123.0",
+   "team_rank": "5"
+  },
+  {
+   "rank": "11",
+   "sail_no": "31994",
+   "university": "鹿児島大学",
+   "skipper": "田中 花奈",
+   "crew": "築地 一路",
+   "races": [
+    "17 17 17",
+    "7 7 7",
+    "7 6 6"
+   ],
+   "total": "30",
+   "boat_score": "30",
+   "boat_rank": "11",
+   "team_score": "135.0",
+   "team_rank": "6"
+  },
+  {
+   "rank": "18",
+   "sail_no": "31633",
+   "university": "鹿児島大学",
+   "skipper": "小窪 健斗",
+   "crew": "樋渡 一斗",
+   "races": [
+    "16 16 16",
+    "14 14 14",
+    "16 UFD 21"
+   ],
+   "total": "51",
+   "boat_score": "51",
+   "boat_rank": "18",
+   "team_score": "135.0",
+   "team_rank": "6"
+  },
+  {
+   "rank": "19",
+   "sail_no": "28513",
+   "university": "鹿児島大学",
+   "skipper": "大茂 流碧",
+   "crew": "恒松 諒",
+   "races": [
+    "20 20 20",
+    "20 20 20",
+    "15 14 14"
+   ],
+   "total": "54",
+   "boat_score": "54",
+   "boat_rank": "19",
+   "team_score": "135.0",
+   "team_rank": "6"
+  },
+  {
+   "rank": "20",
+   "sail_no": "31683",
+   "university": "西南学院大学",
+   "skipper": "松井 美慧",
+   "crew": "溝部 空知",
+   "races": [
+    "18 18 18",
+    "18 18 18",
+    "20 18 18"
+   ],
+   "total": "54",
+   "boat_score": "54",
+   "boat_rank": "20",
+   "team_score": "",
+   "team_rank": ""
+  },
+  {
+   "rank": "16",
+   "sail_no": "30944",
+   "university": "西南学院大学",
+   "skipper": "七條 結生花",
+   "crew": "秀島 萌夏",
+   "races": [
+    "15 15 15",
+    "19 19 19",
+    "17 15 15"
+   ],
+   "total": "49",
+   "boat_score": "49",
+   "boat_rank": "16",
+   "team_score": "",
+   "team_rank": ""
+  }
+ ],
+ "extra_tables": [
+  [
+   [
+    "レース日",
+    "13-Sep-25",
+    "13-Sep-25",
+    "14-Sep-25"
+   ],
+   [
+    "天 候",
+    "晴れ",
+    "晴れ",
+    "晴れ"
+   ],
+   [
+    "風 向",
+    "210°",
+    "220°",
+    "150°"
+   ],
+   [
+    "風 速 (kt)",
+    "10kt",
+    "10kt",
+    "6kt"
+   ],
+   [
+    "スタート時刻",
+    "13:18:00",
+    "14:30:00",
+    "12:57:00"
+   ],
+   [
+    "最初の艇ﾌｨﾆｯｼｭ時刻",
+    "13:59:46",
+    "15:09:55",
+    "13:41:16"
+   ],
+   [
+    "レース終了時刻",
+    "14:05:12",
+    "15:16:20",
+    "13:48:30"
+   ],
+   [
+    "参加艇数",
+    "20 艇",
+    "20 艇",
+    "20 艇"
+   ],
+   [
+    "出走艇数",
+    "20 艇",
+    "20 艇",
+    "20 艇"
+   ]
+  ],
+  [
+   [
+    "レース オフィサー"
+   ],
+   [
+    "坂口 陽平"
+   ],
+   [
+    "プロテスト委員長"
+   ],
+   [
+    "岡部 幸司"
+   ],
+   [
+    "テクニカル委員長"
+   ],
+   [
+    "元津 大地"
+   ],
+   [
+    "記録部長"
+   ],
+   [
+    "岩瀬 広志"
+   ]
+  ]
+ ],
+ "parsed_at": "2026-08-16T15:32:16",
+ "id": "16844400922"
+}

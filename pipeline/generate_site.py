@@ -2,7 +2,10 @@
 """data/ の正規化JSONから静的サイト「ヨットマニア」（site/）を生成する。
 
 MVPスコープ: 大学ディレクトリ＋大会カレンダー＋成績PDFリンク集。
-PDFの中身は解析しない（リンクの一覧化のみ）。
+成績PDFはpipeline/fetch_pdf_results.pyが表構造の解析を試み、成功した分は
+site/results/<id>/ にページ内表示用の結果ページを生成する（艇順位・大学名・
+得点など）。レイアウトの都合で解析できなかった分は、従来どおりPDFへの
+直リンクのみを掲載する。
 
 URL構造:
   site/index.html                      トップ（新着成績PDF＋直近大会カレンダー）
@@ -11,6 +14,7 @@ URL構造:
   site/universities/<slug>/index.html  大学ページ
   site/calendar/index.html             大会カレンダー全件
   site/results/index.html              成績PDFリンク全件
+  site/results/<id>/index.html         成績ページ（表構造の解析に成功した分のみ）
   site/articles/ 等                    全水域共通コンテンツ（現状は空でも動作する）
 """
 import json
@@ -143,6 +147,9 @@ def load_json(name, default):
     return json.loads(f.read_text(encoding="utf-8"))
 
 
+PARSED_DIR = DATA / "results_parsed"
+
+
 def load_data():
     universities = load_json("universities.json", [])
     calendar = load_json("calendar.json", [])
@@ -150,6 +157,9 @@ def load_data():
     schedule_pdfs = load_json("schedule_pdfs.json", [])
     meta = load_json("meta.json", {"fetched_at": datetime.now().isoformat(timespec="seconds"),
                                     "sources": []})
+
+    for r in results:
+        r["has_detail"] = (PARSED_DIR / f"{r['id']}.json").exists()
 
     by_region: dict[str, list] = {code: [] for code in REGION_ORDER}
     for u in universities:
@@ -361,8 +371,9 @@ def page(rel, title, body, meta, *, path="", desc="", extra_head="", og_type="we
     <nav class="footer-nav">{nav}</nav>
     <p>データ出典: {src_html}
     （情報更新日: {escape(meta['fetched_at'][:10])}）</p>
-    <p>ヨットマニアは大学ヨット部の情報メディアです。大会成績はPDFへのリンク集であり、
-    順位・スコアの中身は編集部で解析していません。確定情報は各成績PDFおよび各連盟公式の発表をご確認ください。</p>
+    <p>ヨットマニアは大学ヨット部の情報メディアです。大会成績は公式PDFの表構造を元に掲載しており、
+    レイアウトの都合で表として読み取れなかった分はPDFへのリンクのみを掲載しています。
+    確定情報は必ず各成績PDFおよび各連盟公式の発表をご確認ください。</p>
   </div>
 </footer>
 </body>
@@ -386,12 +397,16 @@ def region_link(code, rel):
     return f'<a href="{rel}regions/{code}/index.html">{escape(r["name"])}水域</a>'
 
 
-def pdf_row(p, show_region=False):
+def pdf_row(p, rel, show_region=False):
     badge = '<span class="new-badge">NEW</span> ' if is_new(p["first_detected_at"]) else ""
     region_cell = (f'<td><span class="cat">{escape(REGIONS.get(p["region"], {}).get("name", p.get("region_label", "")))}</span></td>'
                    if show_region else "")
-    return (f'<tr><td>{badge}<a href="{escape(p["url"])}" target="_blank" rel="noopener">'
-            f'{escape(p["filename"])}</a></td>{region_cell}'
+    if p.get("has_detail"):
+        link = (f'<a href="{rel}results/{p["id"]}/index.html">{escape(p["filename"])}</a> '
+                f'<a class="note" href="{escape(p["url"])}" target="_blank" rel="noopener">(元のPDF)</a>')
+    else:
+        link = f'<a href="{escape(p["url"])}" target="_blank" rel="noopener">{escape(p["filename"])}</a>'
+    return (f'<tr><td>{badge}{link}</td>{region_cell}'
             f'<td><span class="cat cat-alt">{escape(p["class"])}</span></td>'
             f'<td class="note">{escape(p["year_label"])}</td>'
             f'<td class="note">{escape(date_jp(p["first_detected_at"]))}</td></tr>')
@@ -402,6 +417,36 @@ def pdf_table(rows, show_region=False):
     return (f'<div class="tbl"><table><thead><tr><th>成績PDF</th>{region_th}<th>クラス</th>'
             '<th>年度</th><th>検知日</th></tr></thead>'
             f'<tbody>{rows}</tbody></table></div>')
+
+
+def render_boat_table(parsed):
+    """tier=boat（艇ごとの個人戦形式）の結果テーブル。"""
+    heads = ["艇順位", "Sail#", "大学名", "艇長", "クルー"] + parsed.get("race_labels", []) \
+        + ["合計", "得点", "順位", "団体得点", "団体順位"]
+    thead = "".join(f"<th>{escape(h)}</th>" for h in heads)
+    rows = []
+    for b in parsed["boats"]:
+        cells = ([b["rank"], b["sail_no"], b["university"], b["skipper"], b["crew"]]
+                 + b["races"] + [b["total"], b["boat_score"], b["boat_rank"], b["team_score"], b["team_rank"]])
+        rows.append("<tr>" + "".join(f"<td>{escape(c)}</td>" for c in cells) + "</tr>")
+    return f'<div class="tbl"><table><thead><tr>{thead}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
+
+
+def render_summary_table(parsed):
+    """tier=summary（大学ごとの最終得点・順位のみ）の結果テーブル。"""
+    thead = (f'<th>{escape(parsed["rank_label"])}</th><th>大学名</th><th>Sail#/No</th>'
+             f'<th>{escape(parsed["score_label"])}</th>')
+    rows = []
+    for r in parsed["rows"]:
+        cells = [r["rank"], r["name"], r["sail_no"], r["score"]]
+        rows.append("<tr>" + "".join(f"<td>{escape(c)}</td>" for c in cells) + "</tr>")
+    return f'<div class="tbl"><table><thead><tr>{thead}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
+
+
+def render_extra_table(rows):
+    """レース日・天候・レースオフィサー等の補助テーブル（見出し行なしでそのまま表示）。"""
+    body = "".join("<tr>" + "".join(f"<td>{escape(c)}</td>" for c in row) + "</tr>" for row in rows)
+    return f'<div class="tbl"><table><tbody>{body}</tbody></table></div>'
 
 
 def calendar_row(e, rel, show_region=True):
@@ -447,10 +492,10 @@ def build_portal(data, articles):
             '</div></div>')
 
     body += ('<section><h2>新着成績PDF</h2>'
-             '<p class="lead">全日本学生ヨット連盟の水域大会成績ページを毎日巡回し、新しく公開された成績PDFへの'
-             'リンクを検知しています。PDFの中身（順位・スコア）は解析せず、リンク一覧のみを掲載しています。</p>')
+             '<p class="lead">全日本学生ヨット連盟の水域大会成績ページで新しく公開された成績PDFへの'
+             'リンクをまとめています。表として読み取れた分はページ内で艇順位・大学名・得点を確認できます。</p>')
     if new_pdfs:
-        body += pdf_table("".join(pdf_row(p, show_region=True) for p in new_pdfs), show_region=True)
+        body += pdf_table("".join(pdf_row(p, rel, show_region=True) for p in new_pdfs), show_region=True)
     else:
         body += '<p class="note">直近の新着はありません。</p>'
     body += '<p class="more"><a class="cta" href="results/index.html">成績PDFリンク一覧をすべて見る →</a></p></section>'
@@ -460,7 +505,8 @@ def build_portal(data, articles):
     if cal:
         body += calendar_table("".join(calendar_row(e, rel) for e in cal))
     else:
-        body += '<p class="note">大会日程は準備中です。</p>'
+        body += '<p class="note">現在表示できる大会日程はありません。近畿北陸学生ヨット連盟の年間予定と全国大会情報のページは'
+        body += '<a href="calendar/index.html">大会カレンダー</a>からご確認いただけます。</p>'
     body += '<p class="more"><a class="cta" href="calendar/index.html">大会カレンダーをすべて見る →</a></p></section>'
 
     body += f'<section><h2>水域から探す</h2><p class="lead">{escape(region_names)}の9水域。</p><div class="digest">'
@@ -468,7 +514,7 @@ def build_portal(data, articles):
         r = REGIONS[code]
         n_univ = len(data["by_region"].get(code, []))
         n_pdf = len(data["results_by_region"].get(code, []))
-        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリ準備中'
+        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリは対応エリア外'
         body += (f'<div class="digest-card"><h3><a href="regions/{code}/index.html">{escape(r["name"])}水域</a></h3>'
                  f'<p class="cat-line"><span class="cat">{escape(dir_note)}</span> '
                  f'<span class="cat">成績PDF {n_pdf}件</span></p></div>')
@@ -516,7 +562,7 @@ def build_regions_index(data):
         r = REGIONS[code]
         n_univ = len(data["by_region"].get(code, []))
         n_pdf = len(data["results_by_region"].get(code, []))
-        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリ準備中'
+        dir_note = f'大学ディレクトリ {n_univ}校' if r["has_directory"] else '大学ディレクトリは対応エリア外'
         cards += (f'<div class="digest-card"><h3><a href="{rel}regions/{code}/index.html">{escape(r["name"])}水域</a></h3>'
                   f'<p class="note">{escape(r["federation"])}</p>'
                   f'<p class="cat-line"><span class="cat">{escape(dir_note)}</span> '
@@ -550,17 +596,18 @@ def build_region(code, data):
         body += '</ul></section>'
     else:
         body += ('<section><h2>加盟大学ディレクトリ</h2>'
-                 '<p class="note">この水域は加盟大学一覧をHTMLで取得できるページが見つかっていないため、'
-                 '大学ディレクトリは準備中です（全日本学連の加盟校名簿はPDF/Excel配布のみのため対象外）。</p></section>')
+                 '<p class="note">この水域の加盟大学一覧は現在ヨットマニアの対応エリア外です'
+                 '（公式サイトが未確認、または全日本学連の加盟校名簿がPDF/Excel配布のみのため掲載できていません）。'
+                 '対応エリアは今後拡大していく予定です。大会成績PDFは全水域で掲載しています。</p></section>')
 
     if cal:
         body += '<section><h2>大会カレンダー</h2>' + calendar_table("".join(calendar_row(e, L, show_region=False) for e in cal), show_region=False) + '</section>'
 
     body += '<section><h2>大会成績PDFリンク</h2>'
     if pdfs:
-        body += ('<p class="note">全日本学生ヨット連盟の水域大会成績ページから検知した成績PDFへのリンクです。'
-                 '中身は解析していません。</p>')
-        body += pdf_table("".join(pdf_row(p) for p in pdfs))
+        body += ('<p class="note">全日本学生ヨット連盟の水域大会成績ページに掲載されている成績PDFです。'
+                 '表として読み取れた分はページ内で結果を確認できます。</p>')
+        body += pdf_table("".join(pdf_row(p, L) for p in pdfs))
     else:
         body += '<p class="note">この水域の成績PDFはまだ検知されていません。</p>'
     body += '</section>'
@@ -607,7 +654,7 @@ def build_universities(data):
                  '<p class="note">個別大学ごとの戦績データは現時点では集計していません。'
                  f'{escape(r["name"])}水域全体の大会成績PDFリンクから、この大学の名前で検索してご確認ください。</p>')
         if pdfs:
-            body += pdf_table("".join(pdf_row(p) for p in pdfs[:10]))
+            body += pdf_table("".join(pdf_row(p, R) for p in pdfs[:10]))
             body += (f'<p class="more"><a href="{R}regions/{code}/index.html">'
                      f'{escape(r["name"])}水域の成績PDF一覧へ →</a></p>')
         body += '</section>'
@@ -631,7 +678,7 @@ def build_calendar_page(data):
     if data["calendar"]:
         body += calendar_table("".join(calendar_row(e, rel) for e in data["calendar"]))
     else:
-        body += '<p class="note">大会日程は準備中です。</p>'
+        body += '<p class="note">現在表示できる大会日程はありません。</p>'
     if data["schedule_pdfs"]:
         body += '<section><h2>全国水域別スケジュール（PDF）</h2><ul>'
         for p in data["schedule_pdfs"]:
@@ -646,19 +693,55 @@ def build_results_page(data):
     meta = data["meta"]
     pdf_count = len(data["results"])
     body = ('<h1>成績PDFリンク一覧</h1>'
-            '<p class="lead">全日本学生ヨット連盟の水域大会成績ページを毎日巡回し検知した、'
-            f'成績PDFへのリンク{pdf_count}件です。PDFの中身（順位・スコア）は解析せず、'
-            'リンクの一覧化のみを行っています。詳細は各PDFをご確認ください。</p>')
+            '<p class="lead">全日本学生ヨット連盟の水域大会成績ページに掲載されている、'
+            f'成績PDF{pdf_count}件です。表として読み取れた分はページ内で艇順位・大学名・得点を確認できます。'
+            'レイアウトの都合で読み取れなかった分はPDFへの直リンクのみを掲載しています。</p>')
     for code in REGION_ORDER:
         pdfs = data["results_by_region"].get(code, [])
         if not pdfs:
             continue
         r = REGIONS[code]
         body += f'<section><h2>{escape(r["name"])}水域（{len(pdfs)}件）</h2>'
-        body += pdf_table("".join(pdf_row(p) for p in pdfs))
+        body += pdf_table("".join(pdf_row(p, rel) for p in pdfs))
         body += '</section>'
     write_page("results", page(rel, "成績PDFリンク一覧 | ヨットマニア", body, meta,
                                path="results/", desc="大学ヨットの大会成績PDFへのリンク一覧。水域別に毎日更新。"))
+
+
+def build_result_detail(p, data):
+    """成績PDFの表構造の解析に成功した分のページ内結果表示（site/results/<id>/）。"""
+    rel = "../../"
+    meta = data["meta"]
+    parsed = json.loads((PARSED_DIR / f"{p['id']}.json").read_text(encoding="utf-8"))
+    region_name = REGIONS.get(p["region"], {}).get("name", p.get("region_label", ""))
+
+    body = (f'<p class="breadcrumb"><a href="{rel}index.html">トップ</a> › '
+            f'<a href="{rel}results/index.html">成績PDFリンク一覧</a> › {escape(p["filename"])}</p>')
+    body += f'<h1>{escape(p["filename"])}</h1>'
+    body += (f'<p class="lead">{escape(p.get("region_label", region_name))} ／ {escape(p["class"])} ／ '
+             f'{escape(p["year_label"])}（出典: {escape(p["source"])}）</p>')
+    body += (f'<p class="note">検知日: {escape(date_jp(p["first_detected_at"]))} ／ '
+             f'<a href="{escape(p["url"])}" target="_blank" rel="noopener">元のPDFを見る →</a></p>')
+
+    if parsed["tier"] == "boat":
+        body += '<section><h2>大会結果</h2>' + render_boat_table(parsed) + '</section>'
+        extras = parsed.get("extra_tables") or []
+        if extras:
+            body += '<section><h2>レース情報</h2>'
+            body += "".join(render_extra_table(t) for t in extras)
+            body += '</section>'
+    else:
+        body += ('<section><h2>大会結果（大学別）</h2>'
+                 '<p class="note">レースごとの内訳までは表として読み取れなかったため、'
+                 '大学ごとの最終得点・順位のみを掲載しています。詳細は元のPDFをご確認ください。</p>')
+        body += render_summary_table(parsed) + '</section>'
+
+    body += build_sponsor_block(heading=f'{region_name}水域の部活を応援する')
+
+    write_page(f"results/{p['id']}",
+               page(rel, f'{p["filename"]} 大会結果 | ヨットマニア', body, meta,
+                    path=f"results/{p['id']}/",
+                    desc=f'{p["filename"]}（{p["class"]}・{p["year_label"]}）の大会結果ページ。'))
 
 
 # ---------------------------------------------------------------- global pages
@@ -918,6 +1001,9 @@ def main():
     build_universities(data)
     build_calendar_page(data)
     build_results_page(data)
+    for p in data["results"]:
+        if p.get("has_detail"):
+            build_result_detail(p, data)
     build_articles(articles, data["meta"])
     build_dashboard(data, articles, data["meta"])
     write_sitemap_and_robots()
