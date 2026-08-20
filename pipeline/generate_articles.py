@@ -1,136 +1,38 @@
 # -*- coding: utf-8 -*-
 """data/results_pdfs.json から新着成績PDFを検知し、大会単位で記事(content/articles/*.md)を生成する。
 
-Type A: 新着成績記事のみを生成する。加盟大学紹介記事などデータが薄くなる記事は
-意図的に作らない（低品質な記事の量産を避けるための方針判断。fetch元は成績PDFの
-リンクのみで、大学ごとの戦績集計や個別コメントが取れないため）。
+Type A: 「新着成績記事」（本ファイル）に加えて、パース済み成績データ
+（data/results_parsed/*.json）に基づく「大学別成績まとめ」「水域別シーズン
+総括」記事（generate_data_articles.py）も同じ実行の中で生成する。加盟大学
+紹介記事のような、大会成績の裏付けがまったく無い記事は引き続き作らない
+（低品質な記事の量産を避けるための方針判断）。大学別・水域別記事は必ず
+パース済み成績データ（艇順位/大学名/得点など実データ）にひもづけて生成する。
 
 生成単位: 大会（同一大会名でクラス別のPDFをまとめる）ごとに1記事。
 大会名はPDFファイル名から、クラス名（470級/スナイプ級等）・年度の付番・
 「成績」「速報」等の定型語を取り除いて抽出する（ヒューリスティック。LLMは使わない）。
+このグルーピングロジックは results_common.py に切り出してあり、
+generate_data_articles.py と共有する。
 
 slugは `result-<大会名のローマ字スラッグ>-<年度>` で決定的に生成し、
 既に同じslugの記事があれば再生成しない（＝重複記事を作らない）。
 
-1回の実行で生成するのは最大2記事（未生成の中で検知日が新しい大会から順に）。
-毎日の成績PDF巡回（fetch_all.py）→本スクリプト→generate_site.py の順で実行することで、
-新着があった翌朝に記事化される。
+1回の実行で生成する記事数は、新着成績・大学別・水域別の合計で
+TOTAL_MAX_ARTICLES_PER_RUN 件まで（優先順: 新着成績 > 大学別 > 水域別）。
+毎日の成績PDF巡回（fetch_all.py → fetch_pdf_results.py）→本スクリプト→
+generate_site.py の順で実行することで、新着があった翌朝に記事化される。
 """
-import json
-import re
 import sys
 from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from regions import REGION_ORDER, REGIONS
+from results_common import CONTENT, existing_slugs, group_by_tournament, load_results, year_num
 
-ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
-CONTENT = ROOT / "content" / "articles"
-
-MAX_ARTICLES_PER_RUN = 2  # 1回の実行での生成上限
+MAX_ARTICLES_PER_RUN = 2  # 新着成績記事の1回の実行での生成上限
+TOTAL_MAX_ARTICLES_PER_RUN = 3  # 新着成績+大学別+水域別の合計上限（1日の記事増加ペースを抑える）
 CATEGORY = "新着成績"
-
-# ---------------------------------------------------------------- 大会名抽出
-
-# クラス名トークン（長い表記を先に置く。「級」は470_級のように区切られる表記の
-# 取りこぼしを拾うための最終フォールバック）
-CLASS_TOKEN_RE = re.compile(r"(スナイプ級|470級|スナイプ|Snipe|SNIPE|snipe|470|級)")
-# 「成績」「速報」等、大会名の一部ではない定型語（ファイル名中どこにあっても除去）
-NOISE_WORD_RE = re.compile(r"(最終成績|団体戦成績|団体成績|成績表|成績|速報|団体戦|団体)")
-IDX_SUFFIX_RE = re.compile(r"\s*\(\d+\)\s*$")          # "...(1)" のような重複回避の付番
-DATE_SUFFIX_RE = re.compile(r"_?\d{4}_?\d{2}_?\d{2}$")  # "..._2025_10_05" のような末尾日付
-TRAIL_BRACKET_RE = re.compile(r"[（(][^）)]{0,10}[）)]\s*$")  # 末尾の短い括弧注記（団体）等
-
-
-def normalize_event_name(filename: str) -> str:
-    """成績PDFのファイル名から「大会名」を抽出するヒューリスティック。
-
-    例:
-      【九州インカレ団体戦】スナイプ級最終成績.pdf → 九州インカレ
-      【九州インカレ団体戦】470級最終成績.pdf     → 九州インカレ （↑と同じ大会名でまとまる）
-      2025年度　関西学生ヨット選手権　snipe.pdf   → 2025年度 関西学生ヨット選手権
-    """
-    s = re.sub(r"\.pdf$", "", filename, flags=re.IGNORECASE)
-    s = IDX_SUFFIX_RE.sub("", s)
-    s = DATE_SUFFIX_RE.sub("", s)
-    s = CLASS_TOKEN_RE.sub("", s)
-    s = NOISE_WORD_RE.sub("", s)
-    while True:
-        stripped = TRAIL_BRACKET_RE.sub("", s).strip()
-        if stripped == s:
-            break
-        s = stripped
-    s = s.replace("＿", "").replace("_", "")
-    s = s.replace("【", "").replace("】", "")
-    s = re.sub(r"[\s　]+", " ", s)
-    s = s.strip(" -ー_")
-    return s or "大会成績"
-
-
-_kks = None
-
-
-def romaji_slug(name: str) -> str | None:
-    """大会名 → ローマ字スラッグ（大学スラッグと同じくpykakasiを使用、ハッシュにはフォールバックしない）。"""
-    global _kks
-    try:
-        if _kks is None:
-            import pykakasi
-            _kks = pykakasi.kakasi()
-        s = "".join(x["hepburn"] for x in _kks.convert(name))
-        s = re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
-        if len(s) > 40:
-            cut = s[:40].rsplit("-", 1)[0]
-            s = cut if len(cut) >= 10 else s[:40]
-        return s or None
-    except Exception as e:
-        print(f"[warn] ローマ字化失敗: {name} ({e})", file=sys.stderr)
-        return None
-
-
-def year_num(year_label: str) -> str:
-    m = re.search(r"\d{4}", year_label or "")
-    return m.group(0) if m else "0000"
-
-
-# ---------------------------------------------------------------- data loading
-
-def load_results():
-    f = DATA / "results_pdfs.json"
-    if not f.exists():
-        return []
-    return json.loads(f.read_text(encoding="utf-8"))
-
-
-def existing_slugs() -> set[str]:
-    if not CONTENT.exists():
-        return set()
-    return {f.stem for f in CONTENT.glob("*.md")}
-
-
-def group_by_tournament(results):
-    groups: dict[tuple, list] = {}
-    for r in results:
-        stem = normalize_event_name(r["filename"])
-        key = (r.get("region", ""), r.get("year_label", ""), stem)
-        groups.setdefault(key, []).append(r)
-
-    out = []
-    for (region, year_label, event_name), pdfs in groups.items():
-        pdfs_sorted = sorted(pdfs, key=lambda p: (p["class"], p["filename"]))
-        detected_at = max(p["first_detected_at"] for p in pdfs)
-        slug_base = romaji_slug(event_name) or f"g{abs(hash(event_name)) % 10**8}"
-        out.append({
-            "region": region,
-            "year_label": year_label,
-            "event_name": event_name,
-            "pdfs": pdfs_sorted,
-            "detected_at": detected_at,
-            "slug": f"result-{slug_base}-{year_num(year_label)}",
-        })
-    return out
 
 
 # ---------------------------------------------------------------- article body
@@ -227,6 +129,20 @@ def main():
           f"{len(groups) - len(existing & {g['slug'] for g in groups}) - len(generated)}件")
     for s in generated:
         print(f"  + {s}.md")
+
+    # 新着成績記事で使い切らなかった分の枠を、大学別・水域別記事に回す
+    # （優先順: 新着成績 > 大学別 > 水域別。合計で TOTAL_MAX_ARTICLES_PER_RUN 件まで）。
+    remaining_budget = max(0, TOTAL_MAX_ARTICLES_PER_RUN - len(generated))
+    if remaining_budget > 0:
+        from generate_data_articles import run as run_data_articles
+        extra = run_data_articles(remaining_budget)
+        for s in extra:
+            print(f"  + {s}.md")
+    else:
+        extra = []
+
+    print(f"合計生成: {len(generated) + len(extra)}件"
+          f"（新着成績{len(generated)}件 / 大学別・水域別{len(extra)}件）")
 
 
 if __name__ == "__main__":

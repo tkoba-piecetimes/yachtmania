@@ -33,7 +33,7 @@ jobs:
         run: python pipeline/fetch_all.py
       - name: Parse result PDFs (新規検知分のみ表構造を解析)
         run: python pipeline/fetch_pdf_results.py
-      - name: Generate new-result articles (Type A / 新着成績記事)
+      - name: Generate Type A articles (新着成績 / 大学別成績まとめ / 水域別シーズン総括)
         run: python pipeline/generate_articles.py
       - name: Generate site
         run: python pipeline/generate_site.py
