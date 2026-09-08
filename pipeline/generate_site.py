@@ -51,6 +51,7 @@ TUNAKARE_BASE = {
     "media_contact": "https://media.tunakare.jp/contact/student/",
     "shukatsu": "https://shukatsu.tunakare.jp/",
     "career": "https://career.tunakare.jp/",
+    "biz_guide": "https://shukatsu.tunakare.jp/biz/guide",
 }
 
 
@@ -81,8 +82,14 @@ def build_sponsor_block(*, heading="この部を応援する") -> str:
     body = f'<section class="sponsor"><h2>{escape(heading)} <span class="pr-badge">PR</span></h2>'
     sponsor_top = tunakare_url(TUNAKARE_BASE["sponsor_top"], "sponsor")
     listing_url = tunakare_url(TUNAKARE_BASE["listing_lp"], "listing")
+    shukatsu_url = tunakare_url(TUNAKARE_BASE["shukatsu"], "shukatsu")
+    biz_guide_url = tunakare_url(TUNAKARE_BASE["biz_guide"], "biz-guide")
     body += (f'<p>この部活・競技を応援したい方へ: '
              f'{tunakare_link(sponsor_top, "ツナカレで協賛募集中の部活を探す →", "cv_sponsor_click")}</p>'
+             f'<p>この部の学生の方へ: '
+             f'{tunakare_link(shukatsu_url, "部活と両立できる就活相談（無料・メールで回答） →", "cv_shukatsu_click")}</p>'
+             f'<p class="note">体育会学生の採用を検討中の企業の方へ: '
+             f'{tunakare_link(biz_guide_url, "体育会学生採用ガイド2026（無料資料） →", "cv_guide_click", cls="cta cta-alt")}</p>'
              f'<p class="note">掲載をご希望の部活関係者の方へ: '
              f'{tunakare_link(listing_url, "協賛募集を無料で掲載する →", "cv_listing_click", cls="cta cta-alt")}</p>')
     media_url = tunakare_url(TUNAKARE_BASE["media_contact"], "media-pr")
@@ -130,14 +137,28 @@ CTA_BANDS = {
 
 
 def cta_band(cta_value: str | None) -> str:
-    cfg = CTA_BANDS.get((cta_value or "").strip())
+    """記事frontmatterの cta 値ごとのCTA帯。
+
+    cta: sponsor の記事は読者の大半が学生・保護者・OBのため、sponsor帯の直後に
+    学生向け就活相談の副帯（outlineスタイル）を必ず追加する。
+    """
+    value = (cta_value or "").strip()
+    cfg = CTA_BANDS.get(value)
     if not cfg:
         return ""
     url = tunakare_url(TUNAKARE_BASE[cfg["base"]], cfg["campaign"])
-    return ('<section class="cta-band">'
+    band = ('<section class="cta-band">'
             f'<p class="pr-badge">PR</p><h2>{escape(cfg["heading"])}</h2>'
             f'<p>{escape(cfg["text"])}</p>'
             f'<p>{tunakare_link(url, cfg["label"], cfg["cv"])}</p></section>')
+    if value == "sponsor":
+        s_cfg = CTA_BANDS["shukatsu"]
+        s_url = tunakare_url(TUNAKARE_BASE[s_cfg["base"]], s_cfg["campaign"])
+        band += ('<section class="cta-band cta-band-sub">'
+                 f'<p class="pr-badge">PR</p><h2>{escape(s_cfg["heading"])}</h2>'
+                 f'<p>{escape(s_cfg["text"])}</p>'
+                 f'<p>{tunakare_link(s_url, s_cfg["label"], s_cfg["cv"], cls="cta cta-alt")}</p></section>')
+    return band
 
 _sitemap_paths: list[str] = []
 
