@@ -51,7 +51,7 @@ TUNAKARE_BASE = {
     "media_contact": "https://media.tunakare.jp/contact/student/",
     "shukatsu": "https://shukatsu.tunakare.jp/",
     "career": "https://career.tunakare.jp/",
-    "biz_guide": "https://shukatsu.tunakare.jp/biz/guide",
+    "biz_guide": "https://career.tunakare.jp/biz/guide",
 }
 
 
