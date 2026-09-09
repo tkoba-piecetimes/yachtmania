@@ -16,7 +16,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SMC597ZSPZ"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SMC597ZSPZ');</script>
 <link rel="stylesheet" href="../../style.css">
 </head>
-<body>
+<body class="has-sticky-cta">
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="../../index.html"><span class="brand-tick"></span>ヨットマニア<span class="brand-sub">JAPAN COLLEGE YACHT</span></a>
@@ -71,7 +71,7 @@
 <li><a href="https://www.kinhokugakuren.com/スケジュール">近畿北陸学生ヨット連盟 スケジュール</a></li>
 <li><a href="https://www.zennihon201809.com/">全日本学生ヨット連盟</a></li>
 <li><a href="https://kantogakuren.org/">関東学生ヨット連盟</a></li>
-</ul></div><section class="cta-band"><p class="pr-badge">PR</p><h2>部活と就活の両立、ひとりで悩まない</h2><p>体育会学生向けの無料就活相談。文武両道の悩みを相談できます。</p><p><a class="cta" href="https://shukatsu.tunakare.jp/?utm_source=yachtmania&amp;utm_medium=referral&amp;utm_campaign=shukatsu" target="_blank" rel="noopener sponsored" onclick="window.gtag&&gtag('event','cv_shukatsu_click')">無料で相談する →</a></p></section><section><h2>あわせて読む</h2><ul><li><a href="../yacht-bu-ensei-gasshuku-hiyou/index.html">大学ヨット部の遠征・合宿費用はどれくらい？ 部費との違いと資金確保の工夫</a></li><li><a href="../yacht-bu-menkyo-marine-career/index.html">大学ヨット部で取る「小型船舶操縦士」免許、卒業後のキャリアにどう活きる？ マリン業界の仕事を紹介</a></li><li><a href="../daigaku-yacht-bu-skipper-crew-chigai/index.html">大学ヨット部のスキッパーとクルーって何が違う？ 役割・向き不向き・決め方を解説</a></li></ul></section>
+</ul></div><section class="cta-band"><p class="pr-badge">PR</p><h2>ヨット部のガクチカ、書き方に困っていませんか</h2><p>テンプレ＆例文集（無料PDF）をダウンロードできます。</p><p><a class="cta" href="https://shukatsu.tunakare.jp/download/gakuchika-template?utm_source=yachtmania&amp;utm_medium=referral&amp;utm_campaign=gakuchika-template" target="_blank" rel="noopener sponsored" data-cta="cv_gakuchika_click" data-position="cta_band" onclick="window.gtag&&gtag('event','cv_gakuchika_click')">ヨット部のガクチカ テンプレ＆例文集を受け取る →</a></p></section><section><h2>あわせて読む</h2><ul><li><a href="../yacht-bu-shukatsu-taiikukai-kyuujin-sousenkou/index.html">大学ヨット部の就活は一般学生と何が違う？ 体育会限定ルート・早期選考のしくみ</a></li><li><a href="../yacht-bu-ensei-gasshuku-hiyou/index.html">大学ヨット部の遠征・合宿費用はどれくらい？ 部費との違いと資金確保の工夫</a></li><li><a href="../yacht-bu-menkyo-marine-career/index.html">大学ヨット部で取る「小型船舶操縦士」免許、卒業後のキャリアにどう活きる？ マリン業界の仕事を紹介</a></li></ul></section>
 </main>
 <footer class="site-footer">
   <div class="footer-inner">
@@ -84,5 +84,36 @@
     確定情報は必ず各成績PDFおよび各連盟公式の発表をご確認ください。</p>
   </div>
 </footer>
+<div class="sticky-cta" id="sticky-cta" data-cta="cv_gakuchika_click" data-position="sticky"><span class="pr-badge">PR</span><span class="sticky-cta-text">ヨット部のガクチカ テンプレ＆例文集（無料PDF）</span><a class="cta" href="https://shukatsu.tunakare.jp/download/gakuchika-template?utm_source=yachtmania&amp;utm_medium=referral&amp;utm_campaign=gakuchika-template" target="_blank" rel="noopener sponsored" onclick="window.gtag&&gtag('event','cv_gakuchika_click')">受け取る</a><button type="button" class="sticky-cta-close" id="sticky-cta-close" aria-label="閉じる">&times;</button></div>
+<script>
+(function () {
+  function dismissSticky() {
+    try { sessionStorage.setItem('gakuchika_sticky_dismissed', '1'); } catch (e) {}
+    var bar = document.getElementById('sticky-cta');
+    if (bar) { bar.style.display = 'none'; }
+  }
+  try {
+    if (sessionStorage.getItem('gakuchika_sticky_dismissed') === '1') {
+      var bar0 = document.getElementById('sticky-cta');
+      if (bar0) { bar0.style.display = 'none'; }
+    }
+  } catch (e) {}
+  var closeBtn = document.getElementById('sticky-cta-close');
+  if (closeBtn) { closeBtn.addEventListener('click', dismissSticky); }
+  if ('IntersectionObserver' in window) {
+    var seen = new WeakSet();
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !seen.has(entry.target)) {
+          seen.add(entry.target);
+          var el = entry.target;
+          window.gtag && gtag('event', 'cta_view', { cta: el.dataset.cta, position: el.dataset.position });
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-cta]').forEach(function (el) { observer.observe(el); });
+  }
+})();
+</script>
 </body>
 </html>
