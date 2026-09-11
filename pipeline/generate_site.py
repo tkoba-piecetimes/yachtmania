@@ -24,6 +24,7 @@ import sys
 from datetime import date, datetime, timedelta
 from html import escape
 from pathlib import Path
+from urllib.parse import quote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from regions import REGION_ORDER, REGIONS
@@ -394,11 +395,13 @@ def md_to_html(md):
 # ---------------------------------------------------------------- page shell
 
 NAV_ITEMS = [
-    ("index.html", "トップ"),
-    ("regions/index.html", "水域一覧"),
-    ("calendar/index.html", "大会カレンダー"),
-    ("results/index.html", "成績PDF"),
-    ("contact/index.html", "お問い合わせ"),
+    ("calendar/index.html", "大会・日程"),
+    ("results/index.html", "結果"),
+    ("regions/index.html", "水域"),
+    ("articles/index.html", "読みもの"),
+    ("archive/index.html", "データベース"),
+    ("index.html#support", "部活の協賛"),
+    ("my-team/index.html", "マイチーム →"),
 ]
 
 
@@ -444,8 +447,11 @@ def page(rel, title, body, meta, *, path="", desc="", extra_head="", og_type="we
 <link rel="canonical" href="{escape(url)}">
 {extra_head}{ga}
 <link rel="stylesheet" href="{rel}style.css">
+<link rel="stylesheet" href="{rel}assets/experience.css">
+<script defer src="{rel}assets/experience.js"></script>
 </head>
 <body{body_class}>
+<a class="skip-link" href="#main-content">本文へ移動</a>
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="{rel}index.html"><span class="brand-tick"></span>ヨットマニア<span class="brand-sub">JAPAN COLLEGE YACHT</span></a>
@@ -453,13 +459,14 @@ def page(rel, title, body, meta, *, path="", desc="", extra_head="", og_type="we
   </div>
 </header>
 {subnav}
-<main>
+<main id="main-content">
 {body}
 </main>
 <footer class="site-footer">
   <div class="footer-inner">
     <p class="footer-brand">ヨットマニア</p>
     <nav class="footer-nav">{nav}</nav>
+    <p><a href="{rel}contact/index.html">お問い合わせ・情報の訂正</a></p>
     <p>データ出典: {src_html}
     （情報更新日: {escape(meta['fetched_at'][:10])}）</p>
     <p>ヨットマニアは大学ヨット部の情報メディアです。大会成績は公式PDFの表構造を元に掲載しており、
@@ -744,8 +751,9 @@ def build_universities(data):
                      f'target="_blank" rel="noopener">{escape(u["name"])} 公式サイトへ →</a></p></section>')
 
         body += ('<section><h2>大会成績</h2>'
-                 '<p class="note">個別大学ごとの戦績データは現時点では集計していません。'
-                 f'{escape(r["name"])}水域全体の大会成績PDFリンクから、この大学の名前で検索してご確認ください。</p>')
+                 '<p class="note">大学名で掲載済みの成績表を検索できます。表記の違いなどで見つからない場合は、水域の資料もご確認ください。</p>'
+                 f'<p><a class="cta" href="{R}results/?q={quote(u["name"])}">{escape(u["name"])}の掲載成績を探す →</a> '
+                 f'<a class="text-link" href="{R}my-team/?q={quote(u["name"])}">マイチームに追加する →</a></p>')
         if pdfs:
             body += pdf_table("".join(pdf_row(p, R) for p in pdfs[:10]))
             body += (f'<p class="more"><a href="{R}regions/{code}/index.html">'
@@ -1215,13 +1223,16 @@ def main():
         for f in ASSETS.iterdir():
             shutil.copy(f, SITE / "assets" / f.name)
 
-    build_portal(data, articles)
+    from experience import home, calendar, results, my_team
+    home(sys.modules[__name__], data, articles)
     build_regions_index(data)
     for code in REGION_ORDER:
         build_region(code, data)
     build_universities(data)
-    build_calendar_page(data)
-    build_results_page(data)
+    calendar(sys.modules[__name__], data)
+    results(sys.modules[__name__], data)
+    results(sys.modules[__name__], data, archive=True)
+    my_team(sys.modules[__name__], data)
     for p in data["results"]:
         if p.get("has_detail"):
             build_result_detail(p, data)

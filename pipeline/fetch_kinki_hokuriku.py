@@ -31,12 +31,15 @@ def _strip_tags(s: str) -> str:
 
 def parse_calendar(html: str) -> list[dict]:
     out = []
+    year_match = re.search(r'(20\d{2})年度スケジュール', _strip_tags(html))
+    year = int(year_match.group(1)) if year_match else None
     for date_raw, event_raw in DATE_EVENT_RE.findall(html):
         date_text = _strip_tags(date_raw)
         event = _strip_tags(event_raw)
         if not DATE_LINE_RE.match(date_text):
             continue
         out.append({
+            "year": year,
             "date_text": date_text,
             "event": event,
             "region": "kinki-hokuriku",
