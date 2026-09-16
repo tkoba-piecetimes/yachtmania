@@ -1,11 +1,11 @@
 ---
-title: 2025年度東北学生ヨット選手権大会の成績が公開されました（2025年度）
+title: 2025年度東北学生ヨット選手権大会の成績が公開されました
 description: 2025年度東北学生ヨット選手権大会（東北水域）の成績PDFが公開されました。470級・スナイプ級の成績PDFへのリンクをまとめています。
 date: 2026-08-14
 category: 新着成績
 cta: sponsor
 ---
-2025年度東北学生ヨット選手権大会（東北水域）の成績PDFが、全日本学生ヨット連盟の水域大会成績ページで確認できます。2025年度の大会成績です。
+2025年度東北学生ヨット選手権大会（東北水域）の成績PDFが、全日本学生ヨット連盟の水域大会成績ページで確認できます。
 
 ## 成績PDFリンク
 
@@ -16,6 +16,9 @@ cta: sponsor
 
 - [東北水域のページへ](../../regions/tohoku/index.html)
 - [成績PDFリンク一覧はこちら](../../results/index.html)
+- [大学ヨットの水域予選とは？ 全国9水域から全日本選手権への道のりを解説](../../articles/daigaku-yacht-suiiki-yosen-guide/index.html)
+- [2025年度 関西学生ヨット選手権の成績はこちら](../../articles/result-2025nendo-kansaigakuseiyottosenshuken-2025/index.html)
+- [北海道インカレの成績はこちら](../../articles/result-hokkaidouinkare-2025/index.html)
 
 詳細な順位は上記の公式成績PDFをご確認ください。
 

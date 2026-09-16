@@ -16,6 +16,8 @@ cta: sponsor
 
 - [北海道水域のページへ](../../regions/hokkaido/index.html)
 - [成績PDFリンク一覧はこちら](../../results/index.html)
+- [大学ヨットの水域予選とは？ 全国9水域から全日本選手権への道のりを解説](../../articles/daigaku-yacht-suiiki-yosen-guide/index.html)
+- [九州インカレの成績はこちら](../../articles/result-kyuushuuinkare-2025/index.html)
 
 詳細な順位は上記の公式成績PDFをご確認ください。
 
