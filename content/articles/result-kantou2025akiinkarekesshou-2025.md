@@ -86,6 +86,7 @@ cta: sponsor
 
 - [関東水域 2025年度シーズン成績まとめ](../region-season-kanto-2025/index.html)
 - [関東水域のページへ](../../regions/kanto/index.html)
+- 決勝でスナイプ級6位だった中央大学の成績: [中央大学ヨット部の大会成績まとめ](../univ-results-chuo-2025/index.html)<!-- index-lane-link -->
 - [成績PDFリンク一覧はこちら](../../results/index.html)
 - 出場校のページ: [日本大学](../../universities/nihon/index.html)・[早稲田大学](../../universities/waseda/index.html)・[慶應義塾大学](../../universities/keio/index.html)・[明治大学](../../universities/meiji/index.html)・[東京科学大学（旧東京工業大学）](../../universities/tokyo-tech/index.html)・[中央大学](../../universities/chuo/index.html)・[明海大学](../../universities/meikai/index.html)・[東京大学](../../universities/tokyo/index.html)・[立教大学](../../universities/rikkyo/index.html)・[法政大学](../../universities/hosei/index.html)・[横浜市立大学](../../universities/yokohama-city/index.html)・[横浜国立大学](../../universities/yokohama-national/index.html)・[一橋大学](../../universities/hitotsubashi/index.html)・[東京農工大学](../../universities/tokyo-noko/index.html)・[成蹊大学](../../universities/seikei/index.html)・[青山学院大学](../../universities/aoyama-gakuin/index.html)・[千葉大学](../../universities/chiba/index.html)・[芝浦工業大学](../../universities/shibaura-it/index.html)・[工学院大学](../../universities/kogakuin/index.html)
 

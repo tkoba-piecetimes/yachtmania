@@ -33,7 +33,7 @@ cta: career
 
 ## 加盟大学の体制を知るには
 
-自分の出身大学、あるいは在学中に対戦した大学のヨット部がどのような指導体制を取っているかを知りたい場合は、[ヨットマニアの水域一覧ページ](https://yachtmania.jp/regions/index.html)から確認できます。関東・近畿北陸の2水域は加盟大学のディレクトリも掲載しており、[早稲田大学の大学ディレクトリページ](https://yachtmania.jp/universities/waseda/index.html)や[東京科学大学の大学ディレクトリページ](https://yachtmania.jp/universities/tokyo-tech/index.html)のように、活動拠点や使用クラスを大学ごとに確認できます。
+自分の出身大学、あるいは在学中に対戦した大学のヨット部がどのような指導体制を取っているかを知りたい場合は、[ヨットマニアの水域一覧ページ](https://yachtmania.jp/regions/index.html)から確認できます。関東・近畿北陸の2水域は加盟大学のディレクトリも掲載しており、[早稲田大学の大学ディレクトリページ](https://yachtmania.jp/universities/waseda/index.html)や[東京科学大学の大学ディレクトリページ](https://yachtmania.jp/universities/tokyo-tech/index.html)のように、活動拠点や使用クラスを大学ごとに確認できます。卒業後に競技との関わりを続ける選択肢全般は、[大学ヨット部を卒業したらセーリングは終わり？ OB・OGが競技を続ける方法](https://yachtmania.jp/articles/yacht-bu-ob-shakaijin-career/index.html)<!-- index-lane-link -->も参考になります。
 
 ## まとめ
 

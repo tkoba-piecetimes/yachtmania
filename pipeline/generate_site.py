@@ -336,6 +336,7 @@ def date_jp(iso: str) -> str:
 
 def md_inline(s):
     s = escape(s, quote=False)
+    s = s.replace("&lt;!-- index-lane-link --&gt;", "<!-- index-lane-link -->")
     s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
     s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
     return s
@@ -694,8 +695,10 @@ def build_regions_index(data):
                                path="regions/", desc="全国9水域の大学ヨット連盟一覧。大学ディレクトリと大会結果リンク。"))
 
 
-def build_region(code, data):
+def build_region(code, data, articles=None):
     r = REGIONS[code]
+    region_article = next((a for a in (articles or [])
+                           if a["slug"] == f"region-season-{code}-2025"), None)
     meta = data["meta"]
     rel = R = L = "../../"
     univs = data["by_region"].get(code, [])
@@ -734,6 +737,12 @@ def build_region(code, data):
         body += '<p class="note">この水域の成績PDFはまだ検知されていません。</p>'
     body += '</section>'
 
+    if region_article:
+        # index-lane-link: 水域まとめ記事への内部リンク
+        body += ('<section><h2>シーズン成績まとめ</h2>'
+                 f'<p><!-- index-lane-link --><a href="{L}articles/{region_article["slug"]}/index.html">'
+                 f'{escape(region_article["title"])}</a>で、予選・決勝の上位校と大学別成績まとめへの案内を読めます。</p></section>')
+
     body += build_sponsor_block(heading=f'{r["name"]}水域の部活を応援する')
 
     title = f'{r["name"]}水域の大学ヨット 加盟大学・大会成績 | ヨットマニア'
@@ -745,8 +754,9 @@ def build_region(code, data):
 
 # ---------------------------------------------------------------- universities
 
-def build_universities(data):
+def build_universities(data, articles=None):
     meta = data["meta"]
+    article_by_slug = {a["slug"]: a for a in (articles or [])}
     rel, R = "../../", "../../"
     for u in data["universities"]:
         code = u["region"]
@@ -781,6 +791,13 @@ def build_universities(data):
             body += (f'<p class="more"><a href="{R}regions/{code}/index.html">'
                      f'{escape(r["name"])}水域の成績PDF一覧へ →</a></p>')
         body += '</section>'
+
+        # 大学別成績まとめ記事への内部リンク（index-lane-link: クロール需要の補強）
+        ua = article_by_slug.get(f"univ-results-{u['slug']}-2025")
+        if ua:
+            body += ('<section><h2>大学別の成績まとめ</h2>'
+                     f'<p><!-- index-lane-link --><a href="{R}articles/{ua["slug"]}/index.html">'
+                     f'{escape(ua["title"])}</a>で、2025年度の予選・決勝の順位を確認できます。</p></section>')
 
         body += build_sponsor_block()
 
@@ -1258,8 +1275,8 @@ def main():
     home(sys.modules[__name__], data, articles)
     build_regions_index(data)
     for code in REGION_ORDER:
-        build_region(code, data)
-    build_universities(data)
+        build_region(code, data, articles)
+    build_universities(data, articles)
     calendar(sys.modules[__name__], data)
     results(sys.modules[__name__], data)
     results(sys.modules[__name__], data, archive=True)

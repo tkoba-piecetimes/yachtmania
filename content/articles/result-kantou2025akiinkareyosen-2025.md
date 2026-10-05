@@ -85,7 +85,7 @@ cta: sponsor
 - [関東水域 2025年度シーズン成績まとめ](../region-season-kanto-2025/index.html)
 - [関東秋インカレ決勝の結果](../result-kantou2025akiinkarekesshou-2025/index.html)
 - [全日本学生ヨット選手権の観戦ガイド](../zennihon-gakusei-yacht-senshuken-kansen-guide/index.html)
-- 大学別成績まとめ: [横浜国立大学](../univ-results-yokohama-national-2025/index.html)・[中央大学](../univ-results-chuo-2025/index.html)・[法政大学](../univ-results-hosei-2025/index.html)・[横浜市立大学](../univ-results-yokohama-city-2025/index.html)・[東京大学](../univ-results-tokyo-2025/index.html)・[芝浦工業大学](../univ-results-shibaura-it-2025/index.html)・[千葉大学](../univ-results-chiba-2025/index.html)
+- 大学別成績まとめ: [横浜国立大学](../univ-results-yokohama-national-2025/index.html)・[中央大学](../univ-results-chuo-2025/index.html)・[法政大学](../univ-results-hosei-2025/index.html)・[横浜市立大学](../univ-results-yokohama-city-2025/index.html)・[東京大学](../univ-results-tokyo-2025/index.html)・[芝浦工業大学](../univ-results-shibaura-it-2025/index.html)・[千葉大学](../univ-results-chiba-2025/index.html)・[工学院大学](../univ-results-kogakuin-2025/index.html)<!-- index-lane-link -->
 - [関東水域のページへ](../../regions/kanto/index.html)
 - [成績PDFリンク一覧はこちら](../../results/index.html)
 
