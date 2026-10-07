@@ -50,7 +50,7 @@ cta: sponsor
 
 ## 応援したい大学の情報を調べるには
 
-出場するチームの顔ぶれを事前に把握しておくと、レースの見どころもつかみやすくなります。[ヨットマニアの水域一覧ページ](https://yachtmania.jp/regions/index.html)では、9水域それぞれの学生ヨット連盟や加盟大学の情報をまとめています。たとえば[関東水域のページ](https://yachtmania.jp/regions/kanto/index.html)には加盟大学のディレクトリも掲載されており、[早稲田大学の大学ディレクトリページ](https://yachtmania.jp/universities/waseda/index.html)のように、活動拠点となるハーバーや使用クラスを大学ごとに確認できます。関東水域の秋インカレの結果をまとめて見たい場合は、[関東水域 2025年度シーズン成績まとめ](https://yachtmania.jp/articles/region-season-kanto-2025/index.html)<!-- index-lane-link -->が参考になります。
+出場するチームの顔ぶれを事前に把握しておくと、レースの見どころもつかみやすくなります。[ヨットマニアの水域一覧ページ](https://yachtmania.jp/regions/index.html)では、9水域それぞれの学生ヨット連盟や加盟大学の情報をまとめています。たとえば[関東水域のページ](https://yachtmania.jp/regions/kanto/index.html)には加盟大学のディレクトリも掲載されており、[早稲田大学の大学ディレクトリページ](https://yachtmania.jp/universities/waseda/index.html)のように、活動拠点となるハーバーや使用クラスを大学ごとに確認できます。関東水域の秋インカレの結果をまとめて見たい場合は、[関東水域 2025年度シーズン成績まとめ](https://yachtmania.jp/articles/region-season-kanto-2025/index.html)<!-- index-lane-link -->が参考になります。決勝に進んだ大学の個別の得点は、たとえば[東京大学ヨット部の2025年度大会成績](https://yachtmania.jp/articles/univ-results-tokyo-2025/index.html)で、順位表の見方の練習として読み比べられます。<!-- index-lane-link -->
 
 ## まとめ
 

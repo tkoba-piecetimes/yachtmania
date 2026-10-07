@@ -42,7 +42,7 @@ cta: none
 - **スナイプ級のみ**：一橋大学（江の島を拠点にスナイプ級で活動）
 - **470級のみ**：青山学院大学（470級で活動）
 
-このように同じ関東水域の中でも大学によって採用艇種は異なります。470級・スナイプ級の両クラスが競う全国大会の様子は、[全日本学生ヨット選手権大会の観戦ガイド](https://yachtmania.jp/articles/zennihon-gakusei-yacht-senshuken-kansen-guide/index.html)で2025年度（第90回）大会の結果とあわせて紹介しています。[ヨットマニアの大学ディレクトリ](https://yachtmania.jp/universities/waseda/index.html)では、[一橋大学](https://yachtmania.jp/universities/hitotsubashi/index.html)や[青山学院大学](https://yachtmania.jp/universities/aoyama-gakuin/index.html)など、各大学の使用クラスや練習拠点を個別に確認できます。スナイプ級で活動する一橋大学の2025年度の結果は[一橋大学ヨット部の大会成績まとめ](https://yachtmania.jp/articles/univ-results-hitotsubashi-2025/index.html)<!-- index-lane-link -->で見られます。関東・近畿北陸以外の水域を含めた各水域の情報は、[水域一覧ページ](https://yachtmania.jp/regions/index.html)からまとめて探すことができます。
+このように同じ関東水域の中でも大学によって採用艇種は異なります。470級・スナイプ級の両クラスが競う全国大会の様子は、[全日本学生ヨット選手権大会の観戦ガイド](https://yachtmania.jp/articles/zennihon-gakusei-yacht-senshuken-kansen-guide/index.html)で2025年度（第90回）大会の結果とあわせて紹介しています。[ヨットマニアの大学ディレクトリ](https://yachtmania.jp/universities/waseda/index.html)では、[一橋大学](https://yachtmania.jp/universities/hitotsubashi/index.html)や[青山学院大学](https://yachtmania.jp/universities/aoyama-gakuin/index.html)など、各大学の使用クラスや練習拠点を個別に確認できます。スナイプ級で活動する一橋大学の2025年度の結果は[一橋大学ヨット部の大会成績まとめ](https://yachtmania.jp/articles/univ-results-hitotsubashi-2025/index.html)<!-- index-lane-link -->で見られます。470級・スナイプ級の両クラスで関東秋インカレに出場した横浜国立大学の結果は、[横浜国立大学ヨット部の2025年度大会成績](https://yachtmania.jp/articles/univ-results-yokohama-national-2025/index.html)<!-- index-lane-link -->で比べられます。関東・近畿北陸以外の水域を含めた各水域の情報は、[水域一覧ページ](https://yachtmania.jp/regions/index.html)からまとめて探すことができます。
 
 ## 初心者は艇種をどう考えればいいか
 

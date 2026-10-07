@@ -43,7 +43,7 @@ cta: sponsor
 
 まず予選シリーズが行われ、上位校が決勝シリーズに進出します。決勝シリーズでは、予選を勝ち抜いた大学に加えて上位実績校を交えたレースが行われ、2025年度（第92回大会）の決勝には日本大学・早稲田大学・慶應義塾大学・明治大学・東京大学・明海大学・中央大学・法政大学・立教大学の9校が進出しました。この決勝出場9校が、そのまま2025年度（第90回）全日本学生ヨット選手権大会への出場権を獲得しています。
 
-[関東水域のページ](https://yachtmania.jp/regions/kanto/index.html)では、関東学生ヨット連盟の加盟大学ディレクトリを掲載しています。決勝に進出した[日本大学](https://yachtmania.jp/universities/nihon/index.html)や[早稲田大学](https://yachtmania.jp/universities/waseda/index.html)のように、活動拠点や使用艇種を大学ごとに確認できます。2025年度シーズンの予選・決勝の上位校は[関東水域 2025年度シーズン成績まとめ](https://yachtmania.jp/articles/region-season-kanto-2025/index.html)<!-- index-lane-link -->で一覧できます。
+[関東水域のページ](https://yachtmania.jp/regions/kanto/index.html)では、関東学生ヨット連盟の加盟大学ディレクトリを掲載しています。決勝に進出した[日本大学](https://yachtmania.jp/universities/nihon/index.html)や[早稲田大学](https://yachtmania.jp/universities/waseda/index.html)のように、活動拠点や使用艇種を大学ごとに確認できます。2025年度シーズンの予選・決勝の上位校は[関東水域 2025年度シーズン成績まとめ](https://yachtmania.jp/articles/region-season-kanto-2025/index.html)<!-- index-lane-link -->で一覧できます。予選のスナイプ級で2位に入った横浜市立大学のように、決勝で順位を落とした大学もあり、その推移は[横浜市立大学ヨット部の2025年度大会成績](https://yachtmania.jp/articles/univ-results-yokohama-city-2025/index.html)で確認できます。<!-- index-lane-link -->
 
 ## 出場するためのルールも細かく決まっている
 
