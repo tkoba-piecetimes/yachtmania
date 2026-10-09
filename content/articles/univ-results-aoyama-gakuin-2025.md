@@ -29,6 +29,7 @@ cta: sponsor
 ## 関連リンク
 
 - 同じ470級で決勝11位だった大学の成績: [東京科学大学ヨット部の2025年度大会成績](../../articles/univ-results-toukyoukagaku-2025/index.html)<!-- index-lane-link -->
+- 予選の470級で青山学院大学より上位の2位だった大学の成績: [法政大学ヨット部の2025年度大会成績](../../articles/univ-results-hosei-2025/index.html)<!-- index-lane-link -->
 - [青山学院大学のページへ](../../universities/aoyama-gakuin/index.html)
 - [関東水域のページへ](../../regions/kanto/index.html)
 - [成績PDFリンク一覧はこちら](../../results/index.html)
