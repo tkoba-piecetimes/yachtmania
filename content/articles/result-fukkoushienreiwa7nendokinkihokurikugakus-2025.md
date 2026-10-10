@@ -71,6 +71,7 @@ cta: sponsor
 
 - [近畿北陸水域のページへ](../../regions/kinki-hokuriku/index.html)
 - [成績PDFリンク一覧はこちら](../../results/index.html)
+- 同じ2025年度の隣の水域の大会結果は、[関西学生ヨット選手権2025の結果（470級・スナイプ級の公式成績PDF）](../result-2025nendo-kansaigakuseiyottosenshuken-2025/index.html)で確認できます。<!-- index-lane-link -->
 - 出場校のページ: [同志社大学](../../universities/doshisha/index.html)・[立命館大学](../../universities/ritsumeikan/index.html)・[京都大学](../../universities/kyoto/index.html)・[金沢大学](../../universities/kanazawa/index.html)・[滋賀大学](../../universities/shiga/index.html)・[京都産業大学](../../universities/kyoto-sangyo/index.html)・[富山大学](../../universities/toyama/index.html)・[龍谷大学](../../universities/ryukoku/index.html)
 
 ## 出典

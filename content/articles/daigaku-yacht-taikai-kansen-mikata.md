@@ -46,7 +46,7 @@ cta: sponsor
 
 大学ヨットの大会は、多くの場合ハーバーやその周辺の海岸から観戦できます。レースの多くは沖合で行われるため、双眼鏡があると艇の動きを追いやすくなります。当日は主催団体や大会本部から、その日のコース図やスタート時刻が案内されることが多いので、現地に着いたらまず確認しておくとよいでしょう。
 
-会場に行けない場合や、大会後に結果を確認したい場合は、各水域の学生ヨット連盟が成績PDFを公開します。[ヨットマニアの大会カレンダー](https://yachtmania.jp/calendar/index.html)では各水域の大会日程を、[成績PDFリンク一覧](https://yachtmania.jp/results/index.html)では公開された成績PDFへのリンクをまとめているので、応援したい大会の予定や結果を追いかける際に活用できます。秋の全国大会である全日本学生ヨット選手権大会の仕組みや観戦のポイントは、[全日本学生ヨット選手権大会とは？観戦のポイント](https://yachtmania.jp/articles/zennihon-gakusei-yacht-senshuken-kansen-guide/index.html)にまとめています。
+会場に行けない場合や、大会後に結果を確認したい場合は、各水域の学生ヨット連盟が成績PDFを公開します。[ヨットマニアの大会カレンダー](https://yachtmania.jp/calendar/index.html)では各水域の大会日程を、[成績PDFリンク一覧](https://yachtmania.jp/results/index.html)では公開された成績PDFへのリンクをまとめているので、応援したい大会の予定や結果を追いかける際に活用できます。実際の成績表で得点の読み方を確かめたい場合は、たとえば[北海道インカレ2025（ヨット）の結果](https://yachtmania.jp/articles/result-hokkaidouinkare-2025/index.html)<!-- index-lane-link -->から470級・スナイプ級の公式成績PDFを開けます。秋の全国大会である全日本学生ヨット選手権大会の仕組みや観戦のポイントは、[全日本学生ヨット選手権大会とは？観戦のポイント](https://yachtmania.jp/articles/zennihon-gakusei-yacht-senshuken-kansen-guide/index.html)にまとめています。
 
 ## 応援したい大学の情報を調べるには
 

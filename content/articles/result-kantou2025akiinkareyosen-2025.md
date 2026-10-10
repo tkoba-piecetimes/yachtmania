@@ -89,6 +89,7 @@ cta: sponsor
 - 予選でスナイプ級6位だった東京農工大学の成績: [東京農工大学ヨット部の2025年度大会成績](../univ-results-tokyo-noko-2025/index.html)<!-- index-lane-link -->
 - [関東水域のページへ](../../regions/kanto/index.html)
 - [成績PDFリンク一覧はこちら](../../results/index.html)
+- 関東以外の水域の2025年度の大会結果として、[関西学生ヨット選手権2025の結果](../result-2025nendo-kansaigakuseiyottosenshuken-2025/index.html)では470級・スナイプ級の公式成績PDFを確認できます。<!-- index-lane-link -->
 
 ## 出典
 

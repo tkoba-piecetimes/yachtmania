@@ -90,6 +90,7 @@ cta: sponsor
 - 決勝でスナイプ級15位だった成蹊大学の予選・決勝の成績: [成蹊大学ヨット部の2025年度大会成績](../univ-results-seikei-2025/index.html)<!-- index-lane-link -->
 - 決勝で470級14位だった芝浦工業大学の予選・決勝の成績: [芝浦工業大学ヨット部の2025年度大会成績](../univ-results-shibaura-it-2025/index.html)<!-- index-lane-link -->
 - [成績PDFリンク一覧はこちら](../../results/index.html)
+- 関東以外の水域の2025年度の大会結果として、[東北学生ヨット選手権大会2025の結果](../result-2025nendotouhokugakuseiyottosenshukentai-2025/index.html)では470級・スナイプ級の公式成績PDFを確認できます。<!-- index-lane-link -->
 - 出場校のページ: [日本大学](../../universities/nihon/index.html)・[早稲田大学](../../universities/waseda/index.html)・[慶應義塾大学](../../universities/keio/index.html)・[明治大学](../../universities/meiji/index.html)・[東京科学大学（旧東京工業大学）](../../universities/tokyo-tech/index.html)・[中央大学](../../universities/chuo/index.html)・[明海大学](../../universities/meikai/index.html)・[東京大学](../../universities/tokyo/index.html)・[立教大学](../../universities/rikkyo/index.html)・[法政大学](../../universities/hosei/index.html)・[横浜市立大学](../../universities/yokohama-city/index.html)・[横浜国立大学](../../universities/yokohama-national/index.html)・[一橋大学](../../universities/hitotsubashi/index.html)・[東京農工大学](../../universities/tokyo-noko/index.html)・[成蹊大学](../../universities/seikei/index.html)・[青山学院大学](../../universities/aoyama-gakuin/index.html)・[千葉大学](../../universities/chiba/index.html)・[芝浦工業大学](../../universities/shibaura-it/index.html)・[工学院大学](../../universities/kogakuin/index.html)
 
 ## 出典
