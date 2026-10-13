@@ -113,6 +113,7 @@ def results(g, data, archive=False):
     body += '</div>'
     if archive:
         body += '<p class="note">掲載のない年度は未収録です。記録が存在しないことを示すものではありません。</p>'
+    body += g.contact_cta('../','schedule')
     g.write_page(route,g.page('../',title+' | ヨットマニア',body,data['meta'],path=route+'/',desc='大学ヨットの大会結果を水域・年度・クラス・大学名から検索。成績表をページ内で閲覧できます。'))
 
 
@@ -128,6 +129,7 @@ def calendar(g, data):
     if data['schedule_pdfs']:
         body += '<section><h2>水域別の公式スケジュール資料</h2><p class="note">過年度の資料を含みます。ファイル名の年度をご確認ください。</p><ul>' + ''.join(f'<li><a href="{h(p["url"])}" target="_blank" rel="noopener">{h(p["filename"])}</a></li>' for p in data['schedule_pdfs']) + '</ul></section>'
     body += '<p class="note">日付付き予定は近畿北陸学連のスケジュールから掲載しています。全国のすべての大会を網羅しているものではありません。</p>'
+    body += g.contact_cta('../','schedule')
     g.write_page('calendar',g.page('../','大会カレンダー | ヨットマニア',body,data['meta'],path='calendar/'))
 
 
