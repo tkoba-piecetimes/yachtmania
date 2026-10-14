@@ -71,7 +71,7 @@ cta: sponsor
 - 遠征費の負担方法
 - マネージャー募集の有無
 
-この中で、自分の生活に直結する項目（通学時間・部費・授業との両立）から優先して確認するとよいでしょう。用語がわからないときは[基本用語集](https://yachtmania.jp/articles/daigaku-yacht-bu-yougo-kiso-guide/index.html)も役立ちます。
+この中で、自分の生活に直結する項目（通学時間・部費・授業との両立）から優先して確認するとよいでしょう。用語がわからないときは[基本用語集](https://yachtmania.jp/articles/daigaku-yacht-bu-yougo-kiso-guide/index.html)も役立ちます。マネージャー募集の有無や部の運営体制まで確認したい場合は、[大学ヨット部の主将・マネージャー・OB会の役割分担](https://yachtmania.jp/articles/yacht-bu-yakushoku-manager-obkai/)<!-- index-lane-link -->も参考になります。
 
 ## 加盟大学を調べる方法
 
