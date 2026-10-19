@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 520" width="640" height="520" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>470級とスナイプ級の違い：470級はセール3枚とトラピーズ、スナイプ級はセール2枚でトラピーズなし</title>
+<rect width="640" height="520" fill="#ffffff"/>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#1f2a44"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#2f6fd6"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#d64545"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#9aa3b2"/></marker></defs>
+<rect x="10" y="8" width="620" height="250" rx="10" fill="#eaf2fb"/>
+<rect x="10" y="268" width="620" height="244" rx="10" fill="#eaf2fb"/>
+<text x="24" y="36" font-size="20" fill="#1f2a44" text-anchor="start" font-weight="bold">470級</text>
+<text x="24" y="296" font-size="20" fill="#1f2a44" text-anchor="start" font-weight="bold">スナイプ級</text>
+<path d="M160,65.0 C253.5,-11.5 304.5,90.5 211.0,129.6" fill="#f2a900" fill-opacity="0.25" stroke="#f2a900" stroke-width="3" stroke-dasharray="7 5"/>
+<g transform="translate(160,150)"><path d="M0,-93.50000000000001 C40.8,-42.07500000000001 31.279999999999998,65.02499999999999 23.119999999999997,76.5 L-23.119999999999997,76.5 C-31.279999999999998,65.02499999999999 -40.8,-42.07500000000001 0,-93.50000000000001 Z" fill="#ffffff" stroke="#1f2a44" stroke-width="3"/><path d="M0,-25.5 Q38.25,7.225000000000001 51.0,68.0" fill="none" stroke="#2f6fd6" stroke-width="6" stroke-linecap="round"/><path d="M0,-86.70000000000002 Q26.01,-51.42500000000001 28.900000000000002,-20.4" fill="none" stroke="#2f6fd6" stroke-width="5" stroke-linecap="round"/><circle cx="0" cy="-25.5" r="5" fill="#1f2a44"/></g>
+<line x1="160" y1="121.1" x2="102.0" y2="146.6" stroke="#9aa3b2" stroke-width="3"/>
+<circle cx="92.0" cy="146.6" r="13" fill="#2f6fd6"/>
+<circle cx="131.1" cy="187.4" r="13" fill="#1f2a44"/>
+<text x="300" y="80" font-size="16" fill="#1f2a44" text-anchor="start" font-weight="bold">セールは3枚</text>
+<text x="300" y="102" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">メイン・ジブ・スピンネーカー</text>
+<text x="300" y="122" font-size="15" fill="#5b6475" text-anchor="start" font-weight="normal">（点線のスピンネーカーは追い風のときだけ）</text>
+<text x="300" y="168" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="bold">ワイヤー（トラピーズ）で</text>
+<text x="300" y="190" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="bold">クルーが体を艇の外へ出す</text>
+<text x="300" y="214" font-size="15" fill="#5b6475" text-anchor="start" font-weight="normal">（灰色の線がワイヤー）</text>
+<g transform="translate(160,410)"><path d="M0,-93.50000000000001 C40.8,-42.07500000000001 31.279999999999998,65.02499999999999 23.119999999999997,76.5 L-23.119999999999997,76.5 C-31.279999999999998,65.02499999999999 -40.8,-42.07500000000001 0,-93.50000000000001 Z" fill="#ffffff" stroke="#1f2a44" stroke-width="3"/><path d="M0,-25.5 Q38.25,7.225000000000001 51.0,68.0" fill="none" stroke="#2f6fd6" stroke-width="6" stroke-linecap="round"/><path d="M0,-86.70000000000002 Q26.01,-51.42500000000001 28.900000000000002,-20.4" fill="none" stroke="#2f6fd6" stroke-width="5" stroke-linecap="round"/><circle cx="0" cy="-25.5" r="5" fill="#1f2a44"/></g>
+<circle cx="127.7" cy="406.6" r="13" fill="#2f6fd6"/>
+<circle cx="127.7" cy="447.4" r="13" fill="#1f2a44"/>
+<text x="300" y="346" font-size="16" fill="#1f2a44" text-anchor="start" font-weight="bold">セールは2枚</text>
+<text x="300" y="368" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">メイン・ジブ</text>
+<text x="300" y="404" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="bold">ワイヤー（トラピーズ）はなし</text>
+<text x="300" y="428" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="bold">艇の縁に足を掛けて、</text>
+<text x="300" y="450" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="bold">2人とも体を外へ倒す</text>
+<circle cx="300" cy="490" r="8" fill="#1f2a44"/><text x="314" y="495" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">スキッパー</text>
+<circle cx="420" cy="490" r="8" fill="#2f6fd6"/><text x="434" y="495" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">クルー</text>
+<text x="24" y="495" font-size="15" fill="#5b6475" text-anchor="start" font-weight="normal">上から見た図</text>
+</svg>

@@ -1,0 +1,426 @@
+{
+  "terms": [
+    {
+      "id": "skipper",
+      "term": "スキッパー",
+      "aliases": [],
+      "short": "2人乗りの艇で、後ろ側に座って舵と大きな帆を操作し、進む方向を決める人。",
+      "diagram": "yacht-skipper-crew-positions",
+      "source": "https://www.jsaf.or.jp/paris2024/classes.html"
+    },
+    {
+      "id": "crew",
+      "term": "クルー",
+      "aliases": [],
+      "short": "2人乗りの艇で、前側に座って小さな帆などを操作し、体重を使って艇の傾きを抑える人。",
+      "diagram": "yacht-skipper-crew-positions",
+      "source": "https://www.jsaf.or.jp/paris2024/classes.html"
+    },
+    {
+      "id": "dinghy",
+      "term": "ディンギー",
+      "aliases": [],
+      "short": "帆で走る小型のヨット。大学ヨット部で使う470級やスナイプ級がこれにあたる。",
+      "source": "https://yougo.kazi.co.jp/1530/"
+    },
+    {
+      "id": "class-470",
+      "term": "470級",
+      "aliases": [
+        "ヨンナナマル"
+      ],
+      "short": "全長4.7mの2人乗り競技用ヨット。大きな追い風用の帆とワイヤーを使う。",
+      "diagram": "yacht-470-snipe-compare",
+      "source": "https://470.org/default/classinfo/content/id/about-the-470"
+    },
+    {
+      "id": "class-snipe",
+      "term": "スナイプ級",
+      "aliases": [
+        "スナイプ"
+      ],
+      "short": "2人乗りの競技用ヨット。追い風用の大きな帆を持たず、ワイヤーも使わない。",
+      "diagram": "yacht-470-snipe-compare",
+      "source": "https://www.scirajapan.com/measurement/"
+    },
+    {
+      "id": "hull",
+      "term": "ハル",
+      "aliases": [],
+      "short": "艇の本体部分。水に浮かぶ船体のことで、ここに帆や舵などが取り付けられる。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "mast",
+      "term": "マスト",
+      "aliases": [],
+      "short": "帆を取り付けるために、艇の甲板から垂直に立てた、細長い支柱（棒）。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "boom",
+      "term": "ブーム",
+      "aliases": [],
+      "short": "大きな帆の下の辺を支える横棒。帆と一緒に左右へ振れ、方向転換の時は頭の上を通る。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "mainsail",
+      "term": "メインセール",
+      "aliases": [
+        "メインセイル"
+      ],
+      "short": "マストの後ろ側に張る、艇でいちばん大きな帆。風の力を進む力に変える。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "sail",
+      "term": "セール",
+      "aliases": [
+        "セイル"
+      ],
+      "short": "風の力を受けて艇を進ませる布製の帆。艇には大きさの違う帆を組み合わせて使う。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "jib",
+      "term": "ジブ",
+      "aliases": [
+        "ジブセール",
+        "ジブセイル"
+      ],
+      "short": "マストより前に張る小さめの帆。大きな帆と組み合わせて風を受ける。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.jsaf.or.jp/paris2024/classes.html"
+    },
+    {
+      "id": "spinnaker",
+      "term": "スピンネーカー",
+      "aliases": [
+        "スピネーカー",
+        "スピン"
+      ],
+      "short": "追い風で走るときだけ艇の前方に大きく張る、ふくらんだ形の帆。",
+      "diagram": "yacht-470-snipe-compare",
+      "source": "https://www.jsaf.or.jp/paris2024/classes.html"
+    },
+    {
+      "id": "centerboard",
+      "term": "センターボード",
+      "aliases": [],
+      "short": "艇の底から水中に下ろす板。艇が風で横へ流されるのを防ぐ。陸上では収納する。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "rudder",
+      "term": "ラダー",
+      "aliases": [],
+      "short": "艇の後ろの水中にある、舵（かじ）の板。握り棒を動かして艇の向きを変える。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "tiller",
+      "term": "ティラー",
+      "aliases": [],
+      "short": "舵を動かすために手で握る棒。押した向きと反対側に艇の先が向く。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "sheet",
+      "term": "シート",
+      "aliases": [
+        "メインシート",
+        "ジブシート"
+      ],
+      "short": "帆を引いたり緩めたりして、帆の開き具合を調整するためのロープ全般。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "trim",
+      "term": "トリム",
+      "aliases": [],
+      "short": "ロープなどを使って、帆の張り具合や開き具合を風に合わせて調整すること。",
+      "source": "https://yougo.kazi.co.jp/"
+    },
+    {
+      "id": "trapeze",
+      "term": "トラピーズ",
+      "aliases": [],
+      "short": "乗員が艇の外へ体を出して傾きを抑えるために使う、マストからつり下げたワイヤー。",
+      "diagram": "yacht-470-snipe-compare",
+      "source": "https://yougo.kazi.co.jp/1404/"
+    },
+    {
+      "id": "harness",
+      "term": "ハーネス",
+      "aliases": [],
+      "short": "体を艇の外へつり下げるワイヤーにつなぐため、乗員が身に着ける装具。",
+      "diagram": "yacht-470-snipe-compare",
+      "source": "https://yougo.kazi.co.jp/1272/"
+    },
+    {
+      "id": "heel",
+      "term": "ヒール",
+      "aliases": [],
+      "short": "風を受けた艇が横に傾くこと。傾きすぎると転覆しやすいため、体重などで抑える。",
+      "source": "https://yougo.kazi.co.jp/1019/"
+    },
+    {
+      "id": "hike-out",
+      "term": "ハイクアウト",
+      "aliases": [],
+      "short": "艇が傾きすぎないよう、体を艇の外側へ乗り出して重しにすること。",
+      "diagram": "yacht-470-snipe-compare",
+      "source": "https://yougo.kazi.co.jp/1256/"
+    },
+    {
+      "id": "rigging",
+      "term": "艤装",
+      "aliases": [],
+      "short": "艇にマストや帆、舵などを取り付け、すぐに走れる状態に整えること。",
+      "diagram": "yacht-parts-names",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060517y_03.html"
+    },
+    {
+      "id": "tacking",
+      "term": "タッキング",
+      "aliases": [],
+      "short": "風が吹いてくる方向へ進むとき、艇の先を風に向けて回し、帆を張る側を左右反対にする方向転換。",
+      "diagram": "yacht-tacking-jibing",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060518y_06.html"
+    },
+    {
+      "id": "jibing",
+      "term": "ジャイビング",
+      "aliases": [
+        "ジャイブ"
+      ],
+      "short": "追い風で進むとき、艇の後ろに風を通して向きを変え、帆が反対側へ大きく振れる方向転換。",
+      "diagram": "yacht-tacking-jibing",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060519y_08.html"
+    },
+    {
+      "id": "close-hauled",
+      "term": "クローズホールド",
+      "aliases": [],
+      "short": "風が吹いてくる方向に、進める限界ぎりぎりまで艇を向けて走る帆走。",
+      "diagram": "yacht-points-of-sail",
+      "source": "https://www.rya.org.uk/blog/do-you-know-your-points-of-sail"
+    },
+    {
+      "id": "windward",
+      "term": "風上",
+      "aliases": [
+        "ウィンドワード"
+      ],
+      "short": "自分の艇から見て、風が吹いてくる側。風上へ進むにはジグザグに走る必要がある。",
+      "diagram": "yacht-points-of-sail",
+      "source": "https://yougo.kazi.co.jp/1721/"
+    },
+    {
+      "id": "leeward",
+      "term": "風下",
+      "aliases": [
+        "リーワード"
+      ],
+      "short": "自分の艇から見て、風が吹いていく側。風上の反対側。追い風で進む向き。",
+      "diagram": "yacht-points-of-sail",
+      "source": "https://yougo.kazi.co.jp/1721/"
+    },
+    {
+      "id": "no-go-zone",
+      "term": "風位",
+      "aliases": [],
+      "short": "風が吹いてくる方向。艇の先がここを向くと帆に風が当たらず、進めなくなる。",
+      "diagram": "yacht-points-of-sail",
+      "source": "https://yougo.kazi.co.jp/1721/"
+    },
+    {
+      "id": "port",
+      "term": "ポート",
+      "aliases": [
+        "左舷"
+      ],
+      "short": "艇が進む向きに対して左側。風を左側から受けて走る状態をポート・タックという。",
+      "diagram": "yacht-port-starboard",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060518y_06.html"
+    },
+    {
+      "id": "starboard",
+      "term": "スターボード",
+      "aliases": [
+        "スターボ",
+        "右舷"
+      ],
+      "short": "艇が進む向きに対して右側。風を右側から受けて走る状態をスターボード・タックという。",
+      "diagram": "yacht-port-starboard",
+      "source": "https://www.bgf.or.jp/lesson/yacht/060518y_06.html"
+    },
+    {
+      "id": "tack",
+      "term": "タック",
+      "aliases": [],
+      "short": "風を艇の左右どちら側から受けているかを表す言葉。右ならスターボード、左ならポート。",
+      "diagram": "yacht-port-starboard",
+      "source": "https://www.racingrulesofsailing.org/definitions"
+    },
+    {
+      "id": "overlap",
+      "term": "オーバーラップ",
+      "aliases": [],
+      "short": "2艇が前後に重なって並んでいる状態。どちらも相手の最後尾より完全に後ろにはいないとき。",
+      "diagram": "yacht-overlap-rules",
+      "source": "https://www.racingrulesofsailing.org/definitions"
+    },
+    {
+      "id": "clear-astern",
+      "term": "クリア・アスターン",
+      "aliases": [],
+      "short": "他の艇の最後尾から真横に引いた線より、艇全体が完全に後ろにいる状態。",
+      "diagram": "yacht-overlap-rules",
+      "source": "https://www.racingrulesofsailing.org/definitions"
+    },
+    {
+      "id": "clear-ahead",
+      "term": "クリア・アヘッド",
+      "aliases": [],
+      "short": "後ろにいる艇から見て、その艇より艇全体が完全に前にいる状態。",
+      "diagram": "yacht-overlap-rules",
+      "source": "https://www.racingrulesofsailing.org/definitions"
+    },
+    {
+      "id": "mark-room",
+      "term": "マーク・ルーム",
+      "aliases": [],
+      "short": "コース上の目印のブイ（マーク）を回るために必要な水面の余地。",
+      "diagram": "yacht-mark-zone",
+      "source": "https://www.racingrulesofsailing.org/definitions"
+    },
+    {
+      "id": "zone",
+      "term": "ゾーン",
+      "aliases": [],
+      "short": "コース上の目印のブイ（マーク）の周囲、艇の長さ3つ分以内の範囲。ここでは回り方の特別なルールが働く。",
+      "diagram": "yacht-mark-zone",
+      "source": "https://www.racingrulesofsailing.org/definitions"
+    },
+    {
+      "id": "turn-penalty",
+      "term": "回転ペナルティ",
+      "aliases": [],
+      "short": "ルール違反をしたかもしれないとき、レース中にその場で艇を回して償う方法。2回転か1回転。",
+      "source": "https://www.ussailing.org/wp-content/uploads/2024/12/44.1.pdf"
+    },
+    {
+      "id": "rrs",
+      "term": "RRS",
+      "aliases": [
+        "セーリング競技規則"
+      ],
+      "short": "世界共通のヨットレースのルールブック。4年ごとに改訂される。",
+      "source": "https://www.sailing.org/racingrules/"
+    },
+    {
+      "id": "si",
+      "term": "帆走指示書",
+      "aliases": [],
+      "short": "大会ごとに主催者が出す、コースやルールの取り決めを書いた文書。",
+      "source": "https://www.zennihon201809.com/"
+    },
+    {
+      "id": "nor",
+      "term": "公示",
+      "aliases": [],
+      "short": "大会の主催者が事前に出す、参加資格や日程などを知らせる文書。",
+      "source": "https://www.zennihon201809.com/"
+    },
+    {
+      "id": "suiiki",
+      "term": "水域",
+      "aliases": [],
+      "short": "全国の大学ヨット部を地域ごとに分けた区分。北海道から九州まで全国に9つある。",
+      "source": "https://www.zennihon201809.com/"
+    },
+    {
+      "id": "suiiki-yosen",
+      "term": "水域予選",
+      "aliases": [],
+      "short": "全国大会に出る大学を決めるため、全国9つの地域ごとに行われる予選の大会。",
+      "source": "https://www.zennihon201809.com/"
+    },
+    {
+      "id": "gakuren",
+      "term": "学連",
+      "aliases": [],
+      "short": "各水域などの学生ヨット連盟の略称。大学ヨットの大会を主催・運営する団体。",
+      "source": "https://www.zennihon201809.com/"
+    },
+    {
+      "id": "intercollege",
+      "term": "インカレ",
+      "aliases": [],
+      "short": "大学対抗の全国規模の大会の略称。ヨットでは主に全日本学生ヨット選手権大会を指す。",
+      "source": "https://www.zennihon201809.com/"
+    },
+    {
+      "id": "jsaf",
+      "term": "JSAF",
+      "aliases": [],
+      "short": "日本セーリング連盟。国内のセーリング競技を統括する公益財団法人。",
+      "source": "https://www.jsaf.or.jp/"
+    },
+    {
+      "id": "low-point",
+      "term": "ローポイントシステム",
+      "aliases": [
+        "低得点方式"
+      ],
+      "short": "着順がそのまま得点になり、合計点が少ない艇ほど上位になる採点方式。",
+      "source": "https://spaia.jp/column/sailing/2820"
+    },
+    {
+      "id": "dnf",
+      "term": "DNF",
+      "aliases": [],
+      "short": "Did Not Finish。スタートしたが、ゴールできなかった艇に付く成績表の略称。",
+      "source": "https://spaia.jp/column/sailing/2820"
+    },
+    {
+      "id": "dns",
+      "term": "DNS",
+      "aliases": [],
+      "short": "Did Not Start。何らかの理由でスタートできなかった艇に付く成績表の略称。",
+      "source": "https://spaia.jp/column/sailing/2820"
+    },
+    {
+      "id": "dnc",
+      "term": "DNC",
+      "aliases": [],
+      "short": "決められた時間までにスタートの場所に来なかった艇に付く略称。",
+      "source": "https://spaia.jp/column/sailing/2820"
+    },
+    {
+      "id": "ocs",
+      "term": "OCS",
+      "aliases": [],
+      "short": "スタートの合図の前にスタートラインを越え、やり直さなかった艇に付く略称。",
+      "source": "https://yougo.kazi.co.jp/3062/"
+    },
+    {
+      "id": "dsq",
+      "term": "DSQ",
+      "aliases": [],
+      "short": "Disqualification。ルール違反により失格となった艇に付く成績表の略称。",
+      "source": "https://spaia.jp/column/sailing/2820"
+    }
+  ]
+}

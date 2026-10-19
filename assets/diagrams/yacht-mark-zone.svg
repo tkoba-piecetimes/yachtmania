@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" width="640" height="440" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>マークの周囲のゾーン：艇の長さ3つ分の範囲と、並んでマークを回る2艇のマーク・ルーム</title>
+<rect width="640" height="440" fill="#ffffff"/>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#1f2a44"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#2f6fd6"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#d64545"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#9aa3b2"/></marker></defs>
+<rect x="10" y="8" width="620" height="424" rx="10" fill="#eaf2fb"/>
+<circle cx="330" cy="196" r="144" fill="#f2a900" opacity="0.14" stroke="#f2a900" stroke-width="3" stroke-dasharray="9 6"/>
+<circle cx="330" cy="196" r="13" fill="#f2a900" stroke="#1f2a44" stroke-width="3"/>
+<text x="330" y="40" font-size="18" fill="#8a6200" text-anchor="middle" font-weight="bold">ゾーン</text>
+<text x="292" y="296" font-size="16" fill="#1f2a44" text-anchor="end" font-weight="normal">マーク</text>
+<line x1="296" y1="286" x2="318" y2="206" stroke="#1f2a44" stroke-width="1.5"/>
+<line x1="330" y1="196" x2="330" y2="340" stroke="#1f2a44" stroke-width="2"/>
+<line x1="324" y1="244" x2="336" y2="244" stroke="#1f2a44" stroke-width="2"/>
+<text x="342" y="230" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">1</text>
+<line x1="324" y1="292" x2="336" y2="292" stroke="#1f2a44" stroke-width="2"/>
+<text x="342" y="278" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">2</text>
+<line x1="324" y1="340" x2="336" y2="340" stroke="#1f2a44" stroke-width="2"/>
+<text x="342" y="326" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">3</text>
+<text x="318" y="360" font-size="15" fill="#1f2a44" text-anchor="end" font-weight="normal">艇の長さ3つ分</text>
+<g transform="translate(372,392) rotate(0) scale(1.0)"><path d="M0,-26 Q9,-6 7,22 L-7,22 Q-9,-6 0,-26 Z" fill="#ffffff" stroke="#1f2a44" stroke-width="2"/><line x1="0" y1="-4" x2="18" y2="22" stroke="#2f6fd6" stroke-width="4" stroke-linecap="round"/></g>
+<g transform="translate(420,402) rotate(0) scale(1.0)"><path d="M0,-26 Q9,-6 7,22 L-7,22 Q-9,-6 0,-26 Z" fill="#ffffff" stroke="#1f2a44" stroke-width="2"/><line x1="0" y1="-4" x2="18" y2="22" stroke="#2f6fd6" stroke-width="4" stroke-linecap="round"/></g>
+<path d="M372,366 L372,196 A42,42 0 0 0 288,196" stroke="#1f2a44" stroke-width="3" fill="none" stroke-dasharray="7 6" marker-end="url(#ah)"/>
+<path d="M420,376 L420,196 A90,90 0 0 0 240,196" stroke="#9aa3b2" stroke-width="3" fill="none" stroke-dasharray="7 6" marker-end="url(#ag)"/>
+<text x="352" y="428" font-size="16" fill="#1f2a44" text-anchor="end" font-weight="bold">内側の艇</text>
+<text x="446" y="424" font-size="16" fill="#5b6475" text-anchor="start" font-weight="bold">外側の艇</text>
+<text x="452" y="56" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">ゾーンに入った時点で</text>
+<text x="452" y="78" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">2艇が並んでいれば、</text>
+<text x="452" y="100" font-size="15" fill="#d64545" text-anchor="start" font-weight="bold">外側の艇は内側の艇に</text>
+<text x="452" y="122" font-size="15" fill="#d64545" text-anchor="start" font-weight="bold">マーク・ルームを与える</text>
+<text x="452" y="150" font-size="15" fill="#5b6475" text-anchor="start" font-weight="normal">例外は規則書で確認</text>
+</svg>
