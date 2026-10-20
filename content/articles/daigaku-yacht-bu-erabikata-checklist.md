@@ -54,7 +54,7 @@ cta: sponsor
 
 ## ポイント5：費用の目安
 
-部費に加えて、合宿費・遠征費・大会エントリー費などがかかる部が一般的です。艇自体は部が保有していることが多く、個人で購入する必要はありませんが、費用感は大学・部によって差があります。艇の価格帯や部費、資金調達の工夫については[大学ヨット部の艇にかかる費用の記事](https://yachtmania.jp/articles/yacht-bu-tei-hiyou-shikinchoutatsu/index.html)で詳しく整理しています。個人で用意する装備については[入部前の装備](https://yachtmania.jp/articles/daigaku-yacht-bu-mochimono-soubi/index.html)をご覧ください。
+部費に加えて、合宿費・遠征費・大会エントリー費などがかかる部が一般的です。艇自体は部が保有していることが多く、個人で購入する必要はありませんが、費用感は大学・部によって差があります。艇の価格帯や部費、資金調達の工夫については[大学ヨット部の艇にかかる費用の記事](https://yachtmania.jp/articles/yacht-bu-tei-hiyou-shikinchoutatsu/index.html)で詳しく整理しています。個人で用意する装備については[入部前の装備](https://yachtmania.jp/articles/daigaku-yacht-bu-mochimono-soubi/index.html)をご覧ください。部費とは別にかかる遠征・合宿の費用の目安は、[大学ヨット部の遠征・合宿費用](https://yachtmania.jp/articles/yacht-bu-ensei-gasshuku-hiyou/index.html)<!-- index-lane-link -->で実例をもとに紹介しています。
 
 ## 体験乗艇・見学で確認したいチェックリスト
 
