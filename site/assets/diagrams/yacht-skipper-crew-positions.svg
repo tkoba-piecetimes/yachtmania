@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" width="640" height="440" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Meiryo',sans-serif" role="img">
+<title>スキッパーとクルーの位置と担当：スキッパーは後ろで舵とメインセール、クルーは前でジブを操作</title>
+<rect width="640" height="440" fill="#ffffff"/>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#1f2a44"/></marker><marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#2f6fd6"/></marker><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#d64545"/></marker><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#9aa3b2"/></marker></defs>
+<rect x="10" y="8" width="620" height="424" rx="10" fill="#eaf2fb"/>
+<g transform="translate(170,200)"><path d="M0,-165.0 C72.0,-74.25 55.199999999999996,114.75 40.8,135.0 L-40.8,135.0 C-55.199999999999996,114.75 -72.0,-74.25 0,-165.0 Z" fill="#ffffff" stroke="#1f2a44" stroke-width="3"/><path d="M0,-45.0 Q67.5,12.749999999999993 90.0,120.0" fill="none" stroke="#2f6fd6" stroke-width="6" stroke-linecap="round"/><path d="M0,-153.0 Q45.900000000000006,-90.75000000000001 51.00000000000001,-36.0" fill="none" stroke="#2f6fd6" stroke-width="5" stroke-linecap="round"/><circle cx="0" cy="-45.0" r="5" fill="#1f2a44"/></g>
+<line x1="170" y1="11.0" x2="170" y2="33.0" stroke="#1f2a44" stroke-width="3" marker-end="url(#ah)"/>
+<text x="182" y="27.0" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">進む向き</text>
+<line x1="170" y1="331.0" x2="120.0" y2="282.0" stroke="#1f2a44" stroke-width="3"/>
+<circle cx="110.0" cy="182.0" r="16" fill="#2f6fd6"/>
+<circle cx="110.0" cy="278.0" r="16" fill="#1f2a44"/>
+<text x="380" y="60" font-size="16" fill="#1f2a44" text-anchor="start" font-weight="bold">ジブ</text>
+<line x1="376" y1="56" x2="213.35" y2="103.1" stroke="#1f2a44" stroke-width="1.5"/>
+<text x="380" y="150" font-size="16" fill="#1f2a44" text-anchor="start" font-weight="bold">メインセール</text>
+<line x1="376" y1="146" x2="242.0" y2="245.75" stroke="#1f2a44" stroke-width="1.5"/>
+<text x="380" y="236" font-size="16" fill="#2f6fd6" text-anchor="start" font-weight="bold">クルー（前側）</text>
+<text x="380" y="258" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">ジブを操作し、体重で</text>
+<text x="380" y="278" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">艇の傾きを抑える</text>
+<line x1="376" y1="232" x2="128.0" y2="182.0" stroke="#2f6fd6" stroke-width="1.5"/>
+<text x="380" y="336" font-size="16" fill="#1f2a44" text-anchor="start" font-weight="bold">スキッパー（後ろ側）</text>
+<text x="380" y="358" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">舵とメインセールを操作し、</text>
+<text x="380" y="378" font-size="15" fill="#1f2a44" text-anchor="start" font-weight="normal">進路や作戦を判断する</text>
+<line x1="376" y1="332" x2="128.0" y2="276.0" stroke="#1f2a44" stroke-width="1.5"/>
+<text x="24" y="420" font-size="15" fill="#5b6475" text-anchor="start" font-weight="normal">上から見た図（風は上から吹く想定）</text>
+</svg>
