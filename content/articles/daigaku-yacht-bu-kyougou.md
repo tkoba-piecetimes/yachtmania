@@ -85,7 +85,7 @@ cta: sponsor
 - 新歓から引退までの年間スケジュール
 - 部費や遠征・合宿にかかる費用
 
-大学ヨット部は、高校までの競技経験を問わず大学から始める部員が主力になっている部も多く見られます。入部先を選ぶ際のチェック項目は[大学ヨット部の選び方チェックリスト](https://yachtmania.jp/articles/daigaku-yacht-bu-erabikata-checklist/index.html)にまとめています。練習拠点や使用艇種は大学ページからも確認でき、たとえば[法政大学](https://yachtmania.jp/universities/hosei/index.html)や[中央大学](https://yachtmania.jp/universities/chuo/index.html)のページでは、拠点となるハーバーと出場クラスを掲載しています。各水域ページの加盟大学一覧からも、大学ページをたどれます。
+大学ヨット部は、高校までの競技経験を問わず大学から始める部員が主力になっている部も多く見られます。入部先を選ぶ際のチェック項目は[大学ヨット部の選び方チェックリスト](https://yachtmania.jp/articles/daigaku-yacht-bu-erabikata-checklist/index.html)にまとめています。練習拠点や使用艇種は大学ページからも確認でき、たとえば[法政大学](https://yachtmania.jp/universities/hosei/index.html)や[中央大学](https://yachtmania.jp/universities/chuo/index.html)のページでは、拠点となるハーバーと出場クラスを掲載しています。各水域ページの加盟大学一覧からも、大学ページをたどれます。強豪校に限らず、ヨット部がある大学を水域ごとに広く調べたい場合は、[ヨット部がある大学一覧｜全国9水域の加盟大学と調べ方](https://yachtmania.jp/articles/daigaku-yacht-bu-ichiran-suiiki/index.html)<!-- index-lane-link -->が役立ちます。
 
 ## 2026年度（第91回）はどこで開催される？
 

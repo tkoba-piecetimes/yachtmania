@@ -43,7 +43,7 @@ cta: none
 - **大会出場を目指すかどうか**：全日本学生ヨット選手権大会を目指すなら体育会、レクリエーション志向ならサークル・同好会が選びやすい傾向があります。
 - **OB・OG会の支援体制**：東京工業大学の例のように、OB・OG会の支援体制が整っている団体は、艇や指導体制の面で安心感があります。
 
-入部先を探すうえでは、まず自分の大学にどのような団体があるかを確認し、気になる団体には新歓期の体験会・試乗会に参加してみることをおすすめします。他大学の活動拠点や使用艇種を比べたい場合は、[ヨットマニアの水域一覧ページ](https://yachtmania.jp/regions/index.html)や、[京都大学](https://yachtmania.jp/universities/kyoto/index.html)・[東京工業大学](https://yachtmania.jp/universities/tokyo-tech/index.html)のような大学ディレクトリページから確認できます。
+入部先を探すうえでは、まず自分の大学にどのような団体があるかを確認し、気になる団体には新歓期の体験会・試乗会に参加してみることをおすすめします。体育会の活動頻度が授業やアルバイトとどう両立できるか気になる場合は、[大学ヨット部は忙しい？ 授業・アルバイトとの両立と活動頻度のリアル](https://yachtmania.jp/articles/daigaku-yacht-bu-jugyou-baito-ryouritsu/index.html)<!-- index-lane-link -->もあわせて確認してみてください。他大学の活動拠点や使用艇種を比べたい場合は、[ヨットマニアの水域一覧ページ](https://yachtmania.jp/regions/index.html)や、[京都大学](https://yachtmania.jp/universities/kyoto/index.html)・[東京工業大学](https://yachtmania.jp/universities/tokyo-tech/index.html)のような大学ディレクトリページから確認できます。
 
 ## まとめ
 
