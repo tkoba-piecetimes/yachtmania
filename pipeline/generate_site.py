@@ -75,10 +75,8 @@ def tunakare_link(url: str, label: str, cv_event: str, cls: str = "cta",
 SPONSOR_CTA_URL = tunakare_url(TUNAKARE_BASE["sponsor_top"], "sponsor")
 MEDIA_CONTACT_URL = tunakare_url(TUNAKARE_BASE["media_contact"], "media-pr")
 
-# ツナカレインターン16タイプ診断（学生集客戦略v2 §4 チャネル2・2026-09-12）。
-# tunakare_url()の既存フォーマット（utm_medium=referral）とは意図的に区別するため、
-# baseballmania実装（PR #3）と同じ独立リテラルURLをここに直書きする。
-INTERN_URL = "https://intern.tunakare.jp/assessment?utm_source=yachtmania&utm_medium=cta&utm_campaign=intern"
+# 就活相談の登録ページ（記事末尾・大学ページ末尾の帯の遷移先）。
+SHUKATSU_REGISTER_URL = "https://shukatsu.tunakare.jp/register?utm_source=yachtmania&utm_medium=cta&utm_campaign=shukatsu_band"
 
 # D2026-09-09（木場さん決定）: 学生向け主導線を競技名入りガクチカ資料DLに変更
 SPORT_NAME: str = "ヨット"
@@ -189,21 +187,21 @@ def cta_band(cta_value: str | None) -> str:
     return band
 
 
-def intern_cta_band() -> str:
-    """記事末尾に常時1つ表示する、ツナカレインターン16タイプ診断への導線CTA帯。
-    cta_band()（記事frontmatterのcta:に応じた既存CTA。未指定なら非表示）とは独立・常時表示で、
-    その直後に置く。学生集客の戦略設計v2（tsunakare-intern/docs/business/
-    27_student-acquisition-v2.md）§4 チャネル2（部活メディア）・§5（2026-09-12）。
-    既存.cta-band/h2が使う左の縦線装飾（border-left）は使わず、紺地の帯で視覚的に区別する
-    （クライアント指定・baseballmania実装PR #3と同一パターン）。
+def shukatsu_cta_band(position: str = "shukatsu_cta_band") -> str:
+    """記事末尾と大学ページ末尾に表示する、就活相談の登録ページへの導線CTA帯。
+    記事ではcta_band()（記事frontmatterのcta:に応じた既存CTA。未指定なら非表示）とは独立・常時表示で、
+    その直後に置く。大学ページでは本文末尾（既存CTA群の後）に1つ置き、
+    position を "shukatsu_cta_band_team" にして記事と計測を分ける。
+    既存.cta-band/h2が使う左の縦線装飾（border-left）は使わず、紺地の帯で視覚的に区別する。
+    2026-11-15決定: 記事末尾とチームページ末尾の帯は就活相談の登録
     """
-    heading = "オフシーズン・引退後に、長期インターンという選択"
-    sub = "部活で培った力を実務で試す。16タイプ診断（30秒）で合う企業がわかります。"
-    return (f'<section class="intern-cta-band" data-cta="cv_intern_click" data-position="intern_cta_band">'
+    heading = "部活を続けながら、就活も進めたい方へ"
+    sub = "体育会の学生のための就活相談です。無料で、メールアドレス・学年・所属の入力だけで始められます。"
+    return (f'<section class="shukatsu-cta-band" data-cta="cv_shukatsu_click" data-position="{position}">'
             '<span class="pr-tag-light">PR</span>'
-            f'<p class="intern-cta-band-text"><strong>{escape(heading)}</strong><br>{escape(sub)}</p>'
-            f'<a class="cta" href="{escape(INTERN_URL)}" rel="noopener" '
-            'onclick="window.gtag&&gtag(\'event\',\'cv_intern_click\')">16タイプ診断を受ける →</a></section>')
+            f'<p class="shukatsu-cta-band-text"><strong>{escape(heading)}</strong><br>{escape(sub)}</p>'
+            f'<a class="cta" href="{escape(SHUKATSU_REGISTER_URL)}" rel="noopener" '
+            'onclick="window.gtag&&gtag(\'event\',\'cv_shukatsu_click\')">無料で就活相談を始める →</a></section>')
 
 
 def sticky_bar() -> str:
@@ -940,6 +938,7 @@ def build_universities(data, articles=None):
         body += contact_cta(R, "team")
         body += contact_feature_cta(R)
         body += build_sponsor_block()
+        body += shukatsu_cta_band("shukatsu_cta_band_team")
 
         write_page(f"universities/{u['slug']}",
                    page(rel, f'{u["name"]} ヨット部 | ヨットマニア', body, meta,
@@ -1060,7 +1059,7 @@ def build_articles(articles, meta):
         if 'class="term"' in art_html:
             body += TERM_TIP_SCRIPT
         body += cta_band(a.get("cta"))
-        body += intern_cta_band()
+        body += shukatsu_cta_band()
         if related:
             body += f'<section><h2>あわせて読む</h2><ul>{related}</ul></section>'
         write_page(f"articles/{a['slug']}",
@@ -1400,9 +1399,9 @@ td.note { color:var(--sub); font-size:.78rem; }
 .cta-band h2 { margin-top:.3em; border:none; padding-left:0; }
 .cta-band .pr-badge { margin-left:0; }
 
-.intern-cta-band { display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1.2rem;
+.shukatsu-cta-band { display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1.2rem;
   background:var(--navy); border-radius:12px; padding:1.1rem 1.3rem; margin-top:1.6rem; }
-.intern-cta-band-text { margin:0; font-size:.85rem; flex:1 1 220px; color:#fff; }
+.shukatsu-cta-band-text { margin:0; font-size:.85rem; flex:1 1 220px; color:#fff; }
 .pr-tag-light { display:inline-block; background:var(--accent); color:var(--navy);
   font-size:.62rem; font-weight:800; padding:.12em .5em; border-radius:5px;
   letter-spacing:.05em; vertical-align:middle; }
