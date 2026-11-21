@@ -41,6 +41,8 @@ cta: none
 
 全国大会と並行して、水域ごとに秋季の学生ヨット選手権大会が開催されます。近畿北陸水域のように、全国大会の予選を兼ねる大会と、シーズンの締めくくりとなる大会が別に組まれている水域もあります。[近畿北陸水域の加盟大学](https://yachtmania.jp/universities/ritsumeikan/index.html)を見ると、水域ごとに大会構成や活動拠点が異なることが分かります。
 
+春の大会と秋の大会がそれぞれどのような位置づけかについては、[大学ヨットの春季大会と秋季大会は何が違う？](https://yachtmania.jp/articles/daigaku-yacht-shunki-shuuki-taikai-chigai/index.html)で整理しています。<!-- index-lane-link -->
+
 秋季大会が終わると、多くの部で1年間のレースシーズンがひと区切りとなります。
 
 ## 11〜12月ごろ：4年生の引退と新体制への移行
