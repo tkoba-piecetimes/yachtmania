@@ -54,7 +54,7 @@ level: 入門
 - **費用面**：部費や合宿費、遠征費が発生する部が一般的です。艇自体は部が保有していることが多いため、個人でヨットを購入する必要はありません。
 - **新歓期の情報収集**：各大学のヨット部は新入生向けのページやSNSで見学・体験会の案内を出していることが多く、実際に艇に乗ってみてから入部を判断できる部も少なくありません。
 
-入部後の基礎練習がどのような流れで進むのかは、[大学ヨット部の練習メニューの基礎](https://yachtmania.jp/articles/yacht-bu-renshu-menu-kiso/index.html)<!-- index-lane-link -->で座学から海上練習まで整理しているので、入部前のイメージづくりに役立ちます。
+入部後の基礎練習がどのような流れで進むのかは、[大学ヨット部の練習メニューの基礎](https://yachtmania.jp/articles/yacht-bu-renshu-menu-kiso/index.html)<!-- index-lane-link -->で座学から海上練習まで整理しているので、入部前のイメージづくりに役立ちます。入部後に小型船舶免許を取る流れや費用の目安は、[大学ヨット部で小型船舶操縦士を取るには](https://yachtmania.jp/articles/daigaku-yacht-bu-menkyo-torikata-guide/index.html)も参考になります。<!-- index-lane-link -->
 
 ## まとめ
 

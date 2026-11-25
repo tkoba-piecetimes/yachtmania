@@ -101,7 +101,7 @@ level: 入門
 
 ### 風の強さへの対応
 
-風の強さによってセールの形や張り具合をどう調整するかは、艇種、セールの設計、コンディションによって変わるため、この記事では扱いません。どのセールをどう使うかは、所属する部のコーチや先輩に確認しながら学ぶのが確実です。気象条件の読み方は、[天気図の読み方の記事](https://yachtmania.jp/articles/yacht-kisho-yomikata-tenkizu-guide/index.html)も参考になります。
+風の強さによってセールの形や張り具合をどう調整するかは、艇種、セールの設計、コンディションによって変わるため、この記事では扱いません。どのセールをどう使うかは、所属する部のコーチや先輩に確認しながら学ぶのが確実です。風が強いときに艇が傾きすぎる場面については、[ヒール角度のコントロール方法](https://yachtmania.jp/articles/yacht-heel-control-kotsu/index.html)も参考になります。<!-- index-lane-link -->気象条件の読み方は、[天気図の読み方の記事](https://yachtmania.jp/articles/yacht-kisho-yomikata-tenkizu-guide/index.html)も参考になります。
 
 ## 大学ヨット部で艇種ごとのセールを確認するには
 
