@@ -41,7 +41,7 @@ cta: none
 - 平日の練習頻度と、拠点までの移動を含めた1日のスケジュール
 - 寮やアパートなど、拠点に近い場所に住んでいる部員がどの程度いるか
 
-大学ヨット部全体の部活選びで確認しておきたいポイントは、[大学のヨット部・セーリング部はどう選ぶ？の記事](https://yachtmania.jp/articles/daigaku-yacht-bu-erabikata-checklist/index.html)でも整理しています。未経験から始められるかどうかが気になる場合は、[未経験者ガイドの記事](https://yachtmania.jp/articles/daigaku-yacht-bu-mikeikensha-guide/index.html)もあわせて参考にしてください。
+練習拠点のハーバーの運営や保管費用のしくみは、[ヨット部のハーバー・艇庫・係留の共有費用](https://yachtmania.jp/articles/yacht-bu-harbor-teiko-kyouyuu-hiyou/)で説明しています。大学ヨット部全体の部活選びで確認しておきたいポイントは、[大学のヨット部・セーリング部はどう選ぶ？の記事](https://yachtmania.jp/articles/daigaku-yacht-bu-erabikata-checklist/index.html)でも整理しています。未経験から始められるかどうかが気になる場合は、[未経験者ガイドの記事](https://yachtmania.jp/articles/daigaku-yacht-bu-mikeikensha-guide/index.html)もあわせて参考にしてください。
 
 ## 関東・近畿北陸の大学ヨット部を探すには
 
