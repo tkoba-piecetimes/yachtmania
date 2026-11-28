@@ -42,7 +42,7 @@ cta: listing
 
 ## まとめ
 
-大学ヨット部の資金調達は、部費やOB・OG支援、クラウドファンディングに加えて、企業からのスポンサー・協賛や大学基金など複数の選択肢を組み合わせて成り立っています。企業側には自社の宣伝だけでなくCSRや採用ブランディングといった支援動機があり、それを理解したうえで活動実績や支援の使いみちを発信することが、協賛を得るための近道になります。各大学ヨット部の活動拠点や使用艇種は水域によって異なるため、興味のある方は[ヨットマニアの水域一覧ページ](https://yachtmania.jp/regions/index.html)や、[慶應義塾大学](https://yachtmania.jp/universities/keio/index.html)・[東京大学](https://yachtmania.jp/universities/tokyo/index.html)のような大学ディレクトリページから、各部の活動状況を確認してみてください。
+大学ヨット部の資金調達は、部費やOB・OG支援、クラウドファンディングに加えて、企業からのスポンサー・協賛や大学基金など複数の選択肢を組み合わせて成り立っています。企業側には自社の宣伝だけでなくCSRや採用ブランディングといった支援動機があり、それを理解したうえで活動実績や支援の使いみちを発信することが、協賛を得るための近道になります。各大学ヨット部の活動拠点や使用艇種は水域によって異なるため、興味のある方は[ヨットマニアの水域一覧ページ](https://yachtmania.jp/regions/index.html)や、[慶應義塾大学](https://yachtmania.jp/universities/keio/index.html)・[東京大学](https://yachtmania.jp/universities/tokyo/index.html)のような大学ディレクトリページから、各部の活動状況を確認してみてください。企業協賛と並ぶ選択肢であるクラウドファンディングの事例・手続き・手数料は、[大学ヨット部のクラウドファンディング](https://yachtmania.jp/articles/yacht-bu-crowdfunding-shikinchoutatsu/index.html)で整理しています。
 
 ## 出典
 
